@@ -1,6 +1,6 @@
-# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect <br/>
+# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect
 
-** A python module for English lemmatization and inflection.**
+**A python module for English lemmatization and inflection.**
 
 LemmInflect uses an extensive dictionary to lemmatize and inflect English words into forms specified by the user.  The module also works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and apply morphing rules.
 
