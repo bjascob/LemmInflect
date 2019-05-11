@@ -1,4 +1,4 @@
-# ![(icon)](/home/bjascob/Files/Projects/NLP/019_LemmInflect/docs/imgages/icons8-citrus-80.png) &nbsp; LemmInflect
+# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect
 
 ** A python module for English lemmatization and inflection.**
 
@@ -74,7 +74,7 @@ When the tuple contains multiple words, they are sorted by their unigram corpus 
 For a list of methods and parameters see the section below.
 
 ## Issues
-If you find a bug, please report it on the **[GitHub issues list](xxx)**.  However be aware that when in comes to returning the correct inflection there are a number of different types of issues that can arise.  Some of these are not  readily fixable.  Issues with inflected forms include...
+If you find a bug, please report it on the **[GitHub issues list](https://github.com/bjascob/LemmInflect/issues)**.  However be aware that when in comes to returning the correct inflection there are a number of different types of issues that can arise.  Some of these are not  readily fixable.  Issues with inflected forms include...
 * Multiple spellings for an inflection (ie.. arthroplasties, arthroplastyes or arthroplastys)
 * Mass form and plural types (ie.. people vs peoples)
 * Forms that depend on context (ie.. further vs farther)
