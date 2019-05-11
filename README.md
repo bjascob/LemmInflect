@@ -1,4 +1,4 @@
-# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect
+# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect <br/>
 
 ** A python module for English lemmatization and inflection.**
 
