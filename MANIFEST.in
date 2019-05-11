@@ -1,0 +1,8 @@
+# This includes data files for the source distribution only (sdist), it does not
+# impact the binary distribution (bdist_wheel). To add data files to the binary
+# distribution add package_data in setup.py
+#
+# setup sdist           creates dist/xx.tar.gz      specify data in MANIFEST.in
+# setup bdist_wheel     creates dist/xx.whl         specify data in setup.py/package_data=
+
+include lemminflect/resources/*
