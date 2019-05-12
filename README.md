@@ -15,16 +15,17 @@ A more simplistic inflection only system is available as **[pyInflect](https://g
 Unlike pyInflect, the new system is derived from the **[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)** which contains an extensive set information on English word forms.
 
 ## Accuracy
-The accuracy of LemmInflect and several other popular NLP utilities was tested using the **[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other)** as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 142,016 different inflected words.
+The accuracy of LemmInflect and several other popular NLP utilities was tested using the **[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other)** as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
 
 ```
 | Package          | Verb  |  Noun | ADJ/ADV | Overall |  Speed  |
 |----------------------------------------------------------------|
-| LemmInflect      | 96.5% | 93.5% |  75.6%  |  92.2%  | 46.0 uS |
-| spaCy            | 79.9% | 87.0% |  52.5%  |  80.8%  |  5.0 uS |
-| CLiPS/pattern.en | 93.0% | 88.5% |   0.0%  |  n/a    |  3.0 uS |
-| Stanford CoreNLP | 87.0% | 90.7% |   0.0%  |  n/a    |  n/a    |
-| Empty function   |  0.4% |  2.9% |   0.0%  |  n/a    |  2.0 uS |
+| LemmInflect      | 96.1% | 95.4% |  93.9%  |  95.6%  | 42.0 uS |
+| CLiPS/pattern.en | 93.6% | 91.1% |   0.0%  |  n/a    |  3.0 uS |
+| Stanford CoreNLP | 87.6% | 93.1% |   0.0%  |  n/a    |  n/a    |
+| spaCy            | 79.4% | 88.9% |  60.5%  |  84.7%  |  5.0 uS |
+| NLTK             | 53.3% | 52.2% |  53.3%  |  52.6%  | 13.0 uS |
+| Empty function   |  0.4% |  3.1% |   0.0%  |  n/a    |  2.0 uS |
 |----------------------------------------------------------------|
 ```
 * Speed is in micro-seconds per lemma
