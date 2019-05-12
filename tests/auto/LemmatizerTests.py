@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import logging
 import unittest
 import spacy
 import lemminflect
@@ -220,6 +221,23 @@ class LemmatizerTests(unittest.TestCase):
         # put the original dictionary back
         lemminflect.Lemmatizer().overrides_dict = orig_dict
 
+    def testUPOSLog(self):
+        with self.assertLogs():
+            lemmas = lemminflect.getLemma('WORD', 'X')
+        self.assertEqual(lemmas, ())
+        with self.assertLogs():
+            lemmas = lemminflect.getAllLemmas('WORD', 'X')
+        self.assertEqual(lemmas, {})
+        with self.assertLogs():
+            lemmas = lemminflect.getAllLemmasOOV('WORD', 'X')
+        self.assertEqual(lemmas, {})
+        token = self.nlp('I')[0]
+        self.assertEqual(token._.lemma(), 'I')
+
 if __name__ == '__main__':
+    level  = logging.WARNING
+    format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'
+    #logging.basicConfig(level=level, format=format)
+
     # run all methods that start with 'test'
     unittest.main()

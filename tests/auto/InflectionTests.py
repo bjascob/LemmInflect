@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import logging
 import unittest
 import spacy
 import lemminflect
@@ -23,7 +24,7 @@ class InflectionTests(unittest.TestCase):
         sent = 'I seem to be eating.'
         doc = self.nlp(sent)
         self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=False), None)
-        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=True), 'I')#
+        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=True), 'I')
 
         self.assertEqual(doc[1]._.inflect('VBN'), 'seemed')
         self.assertEqual(doc[1]._.inflect('VBD'), 'seemed')
@@ -62,7 +63,9 @@ class InflectionTests(unittest.TestCase):
         #awake_dict['VBN'] = ('awaked',)     # Applied in overrides but isn't preferred
         self.assertEqual(lemminflect.getAllInflections('awake', 'VERB'), awake_dict)
         self.assertEqual(lemminflect.getAllInflections('awoke', 'VERB'), {})
-        self.assertEqual(lemminflect.getAllInflections('awake', 'X'), {})   # invalid upos
+        with self.assertLogs():
+            infls = lemminflect.getAllInflections('awake', 'X') # invalid upos
+        self.assertEqual(infls, {})
 
     def testGetInflection02(self):
         self.assertEqual(lemminflect.getInflection('squirrel', 'NN'),  ('squirrel',))
@@ -117,12 +120,41 @@ class InflectionTests(unittest.TestCase):
         lemminflect.getInflection('watch', 'VBD'), ('watched',)
         # Hack the code to replace the overrides dictionary
         orig_dict = lemminflect.Inflections().overrides_dict
+        with self.assertLogs():
+            lemmas = lemminflect.getLemma('WORD', 'X')
+        self.assertEqual(lemmas, ())
+        with self.assertLogs():
+            lemmas = lemminflect.getAllLemmas('WORD', 'X')
+        self.assertEqual(lemmas, {})
+        with self.assertLogs():
+            lemmas = lemminflect.getAllLemmasOOV('WORD', 'X')
+        self.assertEqual(lemmas, {})
+        token = self.nlp('I')[0]
+        self.assertEqual(token._.lemma(), 'I')
         lemminflect.Inflections().overrides_dict = {'watch':{'VBD':('xxx',)}}
         inflections = lemminflect.getInflection('watch', 'VBD', inflect_oov=False)
         self.assertEqual(inflections, ('xxx',))
         # put the original dictionary back
         lemminflect.Inflections().overrides_dict = orig_dict
 
+    def testUPOSLog(self):
+        with self.assertLogs():
+            infl = lemminflect.getInflection('WORD', 'X')
+        self.assertEqual(infl, ())
+        with self.assertLogs():
+            infls = lemminflect.getAllInflections('WORD', 'X')
+        self.assertEqual(infls, {})
+        with self.assertLogs():
+            infls = lemminflect.getAllInflectionsOOV('WORD', 'X')
+        self.assertEqual(infls, {})
+        token = self.nlp('testing')[0]
+        self.assertEqual(token._.inflect('X'), 'testing')
+
+
 if __name__ == '__main__':
+    level  = logging.WARNING
+    format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'
+    logging.basicConfig(level=level, format=format)
+
     # run all methods that start with 'test'
     unittest.main()

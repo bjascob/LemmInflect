@@ -1,3 +1,4 @@
+import logging
 from copy import deepcopy
 from .LexicalUtils           import getCapsStyle, applyCapsStyle, applyCapsStyleToDict
 from ..utils.Singleton       import Singleton
@@ -9,9 +10,11 @@ from .. import config
 
 # This is the top-level class that agregates logic.  It calls LemmaRules for OOV words.
 class Lemmatizer(Singleton):
+    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'MODAL', 'AUX']
     def __init__(self, lemma_lu_fn=config.lemma_lu_fn, overrides_fn=config.lemma_overrides_fn):
         self.lemma_lu_fn = lemma_lu_fn
         self.overrides_fn = overrides_fn
+        self.logger = logging.getLogger(__name__)
 
     # Get all lemmas for the specific word.
     # upos is the universal dependencies of NOUN, PROPN, VERB, etc..
@@ -20,11 +23,15 @@ class Lemmatizer(Singleton):
     # Returns a dict with upos as key and a tuple of spellings for the values
     # The returned lemmas are capitalized the same was as the incoming word.
     def getAllLemmas(self, word, upos=None):
+        if upos is not None and upos not in self.DICT_UPOS_TYPES:
+            self.logger.warning('Invalid upos type = %s' % upos)
+            return {}
         caps_style = getCapsStyle(word)
         word = word.lower()
         if upos == 'PROPN':
             word = applyCapsStyle(word, 'first_upper')
             upos = 'NOUN'   # lu_dict originally has category which only has 'noun'
+        # Note that lemma dict tags are converted from category to upos on load
         lemmas = deepcopy(self._getLemmaDict().get(word, {}))
         # Apply any overrides
         overrides = deepcopy(self._getOverridesDict().get(word, {}))
@@ -41,6 +48,9 @@ class Lemmatizer(Singleton):
     # Return is purposely the same as getAllLemmas so this returns a dict
     # with upos as key and a tuple of the spelling
     def getAllLemmasOOV(self, word, upos):
+        if upos not in self.DICT_UPOS_TYPES:
+            self.logger.warning('Invalid upos type = %s' % upos)
+            return {}
         caps_style = getCapsStyle(word)
         lemma = self._getOOVLemmatizer().lemmatize(word, upos)
         if lemma is None:
@@ -63,7 +73,9 @@ class Lemmatizer(Singleton):
     # Method for extending the spaCy tokens
     # Return the lemma or, if nothing was found, the original word
     def spacyGetLemma(self, token, form_num=0, lemmatize_oov=True, on_empty_ret_word=True):
-        lemmas = self.getLemma(token.text, token.pos_, lemmatize_oov)
+        lemmas = ()
+        if token.pos_ in self.DICT_UPOS_TYPES:
+            lemmas = self.getLemma(token.text, token.pos_, lemmatize_oov)
         if not lemmas:
             if on_empty_ret_word:
                 return token.text

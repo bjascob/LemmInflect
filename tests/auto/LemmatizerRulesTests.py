@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import logging
 import unittest
 import numpy
 from   lemminflect.core.LemmatizerRules import LemmatizerRules
@@ -50,10 +51,15 @@ class LemmatizerRulesTests(unittest.TestCase):
 
     def testLemmatizer02(self):
         lemmatizer = Lemmatizer()
-        lemma_dict = lemmatizer.getAllLemmasOOV( 'test', 'X' )
+        with self.assertLogs():
+            lemma_dict = lemmatizer.getAllLemmasOOV( 'test', 'X' )
         self.assertEqual(len(lemma_dict), 0)
 
 
 if __name__ == '__main__':
+    level  = logging.WARNING
+    format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'
+    #logging.basicConfig(level=level, format=format)
+
     # run all methods that start with 'test'
     unittest.main()

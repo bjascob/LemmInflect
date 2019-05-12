@@ -1,3 +1,4 @@
+import logging
 from   copy import deepcopy
 from   ..utils.Singleton import Singleton
 from   .InflectionRules  import InflectionRules, MorphologyStyleModel
@@ -12,9 +13,11 @@ from   .. import config
 # This is the top-level class that agregates logic to get inflections
 # from the dictionary or by using InflectionRules
 class Inflections(Singleton):
+    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'MODAL', 'AUX']
     def __init__(self, infl_lu_fn=config.inflection_lu_fn, overrides_fn=config.infl_overrides_fn):
         self.infl_lu_fn = infl_lu_fn
         self.overrides_fn = overrides_fn
+        self.logger = logging.getLogger(__name__)
         self.setUseInternalLemmatizer(True)     # only for _spacyGetInfl
 
     # Pass in the lemmatizer or None to use spaCy's
@@ -31,8 +34,11 @@ class Inflections(Singleton):
     # Note that the lower-case version of the word is used for lookup so if this is
     # a capitalized proper-noun, then upos must be 'PROPN'
     # Return a dictionary of forms with the Penn Treebank tag as the key and a tuple
-    # of the possible spellings as the value
+    # of the possible spellings as the valueif token.pos_ in self.DICT_UPOS_TYPES:
     def getAllInflections(self, lemma, upos=None):
+        if upos is not None and upos not in self.DICT_UPOS_TYPES:
+            self.logger.warning('Invalid upos type = %s' % upos)
+            return {}
         caps_style = getCapsStyle(lemma)
         lemma = lemma.lower()
         if upos == 'PROPN':
@@ -56,6 +62,9 @@ class Inflections(Singleton):
     # Return a dictionary of inflections, keyed by Penn Tag  and a tuple
     # of the possible spellings as the value
     def getAllInflectionsOOV(self, lemma, upos):
+        if upos not in self.DICT_UPOS_TYPES:
+            self.logger.warning('Invalid upos type = %s' % upos)
+            return {}
         caps_style = getCapsStyle(lemma)
         morph_style = self._getInflStyleModel().getStyle(lemma, upos)
         if upos == 'VERB':
@@ -127,7 +136,10 @@ class Inflections(Singleton):
     def spacyGetInfl(self, token, tag, form_num=0, inflect_oov=True, on_empty_ret_word=True):
         # Find the lemma by using the internal lemmatizer or get the spaCy lemma
         if self.int_lemma is not None:
-            lemmas = self.int_lemma.getLemma(token.text, token.pos_, lemmatize_oov=True)
+            lemmas = ()
+            upos = tagToUPos(tag)
+            if upos in self.int_lemma.DICT_UPOS_TYPES:
+                lemmas = self.int_lemma.getLemma(token.text, token.pos_, lemmatize_oov=True)
             if not lemmas:
                 lemma = token.text
             else:
