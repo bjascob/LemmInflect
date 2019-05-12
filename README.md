@@ -14,7 +14,7 @@ A more simplistic inflection only system is available as **[pyInflect](https://g
 
 Unlike pyInflect, the new system is derived from the **[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)** which contains an extensive set information on English word forms.
 
-## Accuracy
+## Accuracy of the Lemmatizer
 The accuracy of LemmInflect and several other popular NLP utilities was tested using the **[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other)** as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
 
 ```
