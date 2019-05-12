@@ -14,6 +14,23 @@ A more simplistic inflection only system is available as **[pyInflect](https://g
 
 Unlike pyInflect, the new system is derived from the **[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)** which contains an extensive set information on English word forms.
 
+## Accuracy
+The accuracy of LemmInflect and several other popular NLP utilities was tested using the **[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other)** as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 142,016 different inflected words.
+
+```
+| Package          | Verb  |  Noun | ADJ/ADV | Overall |  Speed  |
+|----------------------------------------------------------------|
+| LemmInflect      | 96.5% | 93.5% |  75.6%  |  92.2%  | 46.0 uS |
+| spaCy            | 79.9% | 87.0% |  52.5%  |  80.8%  |  5.0 uS |
+| CLiPS/pattern.en | 93.0% | 88.5% |   0.0%  |  n/a    |  3.0 uS |
+| Stanford CoreNLP | 87.0% | 90.7% |   0.0%  |  n/a    |  n/a    |
+| Empty function   |  0.4% |  2.9% |   0.0%  |  n/a    |  2.0 uS |
+|----------------------------------------------------------------|
+```
+* Speed is in micro-seconds per lemma
+* The "Empty function" simply returns the test inflection as the lemma.  It provides a baseline for speed to run the test itself.
+* The Stanford and CLiPS lemmatizers don't accept part-of-speech information and in the case of the pattern.en, the methods was setup specifically for verbs, not as a lemmatizer for all word types.
+* The Stanford CoreNLP lemmatizer is a Java package and testing was done via the built-in HTML server, thus the time measurement is invalid.
 
 
 ## Requirements and Installation
