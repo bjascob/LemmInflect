@@ -24,6 +24,7 @@ that are not installed.
 The Debian English word lists are built from SCOWL (Spell-Checker Oriented Word Lists)
 If you're not on a Debian distribution you should still be able to search and download the
 raw packages and extract the needed text files.
+Try https://packages.debian.org/stable/text/wamerican
 
 GutenbergToUnigrams.py
 This script uses a portion of the Gutenberg corpus downloadable from
