@@ -39,5 +39,9 @@ model_infl_fn       = os.path.join(proj_resources, 'model_infl.pkl.gz')
 lemma_overrides_fn  = os.path.join(proj_resources, 'lemma_overrides.csv')
 infl_overrides_fn   = os.path.join(proj_resources, 'infl_overrides.csv')
 
+# Paths for accuracy testing
+acc_word_set_fn     = os.path.join(data_repo, 'acc_word_set.txt')
+acc_lemma_corp_fn   = os.path.join(data_repo, 'acc_lemma_corp.csv')
+
 # default Keras model inference engine
 kinfer_type         = 'numpy'   # numpy or keras
