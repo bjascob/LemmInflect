@@ -51,7 +51,7 @@ def getTestClass(fn):
 
 # Note: to capture output, run: `./RunAllUnitTests.py | tee test.log`
 if __name__ == '__main__':
-    test_fns = getAllPythonFiles('..' + os.sep + 'tests' + os.sep + 'auto')
+    test_fns = getAllPythonFiles('auto')
     assert test_fns, 'Error: no test files found'
 
     # Loop through all file names
