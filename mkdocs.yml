@@ -1,0 +1,9 @@
+site_name: LemmInflect
+nav:
+- Home: index.md
+- Accuracy: accuracy.md
+- Lemmatizer: lemmatizer.md
+- Inflections: inflections.md
+- Part-Of-Speech Tags: tags.md
+- Testing and Development: test_dev.md
+theme: readthedocs
