@@ -24,7 +24,7 @@ class Lemmatizer(Singleton):
     # The returned lemmas are capitalized the same was as the incoming word.
     def getAllLemmas(self, word, upos=None):
         if upos is not None and upos not in self.DICT_UPOS_TYPES:
-            self.logger.warning('Invalid upos type = %s' % upos)
+            self.logger.warning('Invalid upos type = %s', upos)
             return {}
         caps_style = getCapsStyle(word)
         word = word.lower()
@@ -49,7 +49,7 @@ class Lemmatizer(Singleton):
     # with upos as key and a tuple of the spelling
     def getAllLemmasOOV(self, word, upos):
         if upos not in self.DICT_UPOS_TYPES:
-            self.logger.warning('Invalid upos type = %s' % upos)
+            self.logger.warning('Invalid upos type = %s', upos)
             return {}
         caps_style = getCapsStyle(word)
         lemma = self._getOOVLemmatizer().lemmatize(word, upos)

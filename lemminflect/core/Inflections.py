@@ -37,7 +37,7 @@ class Inflections(Singleton):
     # of the possible spellings as the valueif token.pos_ in self.DICT_UPOS_TYPES:
     def getAllInflections(self, lemma, upos=None):
         if upos is not None and upos not in self.DICT_UPOS_TYPES:
-            self.logger.warning('Invalid upos type = %s' % upos)
+            self.logger.warning('Invalid upos type = %s', upos)
             return {}
         caps_style = getCapsStyle(lemma)
         lemma = lemma.lower()
@@ -63,7 +63,7 @@ class Inflections(Singleton):
     # of the possible spellings as the value
     def getAllInflectionsOOV(self, lemma, upos):
         if upos not in self.DICT_UPOS_TYPES:
-            self.logger.warning('Invalid upos type = %s' % upos)
+            self.logger.warning('Invalid upos type = %s', upos)
             return {}
         caps_style = getCapsStyle(lemma)
         morph_style = self._getInflStyleModel().getStyle(lemma, upos)

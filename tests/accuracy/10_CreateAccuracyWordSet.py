@@ -40,6 +40,7 @@ def loadDict(dict_fn):
 
 if __name__ == '__main__':
     # Source dictionaries.
+    #dict1_fn    = '/usr/share/dict/american-english'   # from package wamerican
     dict1_fn    = '/usr/share/dict/american-english-huge'   # from package wamerican-huge
     dict2_fn    = '/usr/share/dict/british-english'
 

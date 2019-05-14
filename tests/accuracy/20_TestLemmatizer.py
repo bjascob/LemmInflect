@@ -38,7 +38,7 @@ class LILemmatizer(object):
 class SpacyLemmatizer(object):
     def __init__(self, smodel):
         import spacy
-        self.svocab = spacy.load(smodel).vocab
+        self.morphology = spacy.load(smodel).vocab.morphology
         self.name = 'Spacy'
         self.version_string = 'Spacy version: %s' % spacy.__version__
 
@@ -46,8 +46,7 @@ class SpacyLemmatizer(object):
     def getLemmas(self, entry):
         possible_lemmas = set()
         for upos in entry.upos_list:
-            upos_int = self.svocab.strings[upos]
-            lemmas = self.svocab.morphology.lemmatizer(entry.infl, upos)   # Note there's more params here
+            lemmas = self.morphology.lemmatizer(entry.infl, upos)   # Note there's more params here
             lemma = lemmas[0]    # See morphology.pyx::lemmatize
             possible_lemmas.add( lemma )
         return possible_lemmas
