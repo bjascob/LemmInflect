@@ -4,8 +4,7 @@
 
 
 ## About
-LemmInflect uses a dictionary approach to lemmatize English words and inflect them into forms specified by a user supplied [Universal Dependencies](https://u
-niversaldependencies.org/u/pos/) or [Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) tag.  The library works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and choose the appropriate morphing rules.
+LemmInflect uses a dictionary approach to lemmatize English words and inflect them into forms specified by a user supplied [Universal Dependencies](https://universaldependencies.org/u/pos/) or [Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) tag.  The library works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and choose the appropriate morphing rules.
 
 The system acts as a standalone module or as an extension to the [spaCy](https://spacy.io/) NLP system.
 
@@ -23,8 +22,7 @@ For the latest documentation, see **[ReadTheDocs](https://lemminflect.readthedoc
 
 
 ## Accuracy of the Lemmatizer
-The accuracy of LemmInflect and several other popular NLP utilities was tested using the [Automatically Generated Inflection Database (AGID)](http://wordlist
-.aspell.net/other) as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
+The accuracy of LemmInflect and several other popular NLP utilities was tested using the [Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other) as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
 
 ```
 | Package          | Verb  |  Noun | ADJ/ADV | Overall |  Speed  |
@@ -94,7 +92,7 @@ examples
 ```
 
 ## Issues
-If you find a bug, please report it on the **[GitHub issues list](https://github.com/bjascob/LemmInflect/issues)**.  However be aware that when in comes to returning the correct inflection there are a number of different types of issues that can arise.  Some of these are not  readily fixable.  Issues with inflected forms include...
+If you find a bug, please report it on the [GitHub issues list](https://github.com/bjascob/LemmInflect/issues).  However be aware that when in comes to returning the correct inflection there are a number of different types of issues that can arise.  Some of these are not  readily fixable.  Issues with inflected forms include...
 * Multiple spellings for an inflection (ie.. arthroplasties, arthroplastyes or arthroplastys)
 * Mass form and plural types (ie.. people vs peoples)
 * Forms that depend on context (ie.. further vs farther)
