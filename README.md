@@ -1,21 +1,30 @@
-# ![(icon)](https://github.com/bjascob/LemmInflect/blob/master/docs/images/icons8-citrus-80.png) &nbsp; LemmInflect
+# ![(icon)](docs/img/favicon.ico) &nbsp; LemmInflect
 
 **A python module for English lemmatization and inflection.**
 
-LemmInflect uses an extensive dictionary to lemmatize and inflect English words into forms specified by the user.  The module also works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and apply morphing rules.
 
-The system acts as a standalone module or an extension to **[spaCy](https://spacy.io/).** The included methods allow the user to lemmatize words or inflect them based on Penn Treebank part-of-speech tags.  Alternate methods also allow retrieval of a tagged list of all inflections for a given lemma.
+## About
+LemmInflect uses a dictionary approach to lemmatize English words and inflect them into forms specified by a user supplied [Universal Dependencies](https://u
+niversaldependencies.org/u/pos/) or [Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) tag.  The library works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and choose the appropriate morphing rules.
 
-A more simplistic inflection only system is available as **[pyInflect](https://github.com/bjascob/pyInflect).**  LemmInflect was created to address some of the shortcoming of that project and add features, such as...
+The system acts as a standalone module or as an extension to the [spaCy](https://spacy.io/) NLP system.
+
+The dictionary and morphology rules are derived from the [NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html) which contains an extensive set information on English word forms.
+
+A more simplistic inflection only system is available as [pyInflect](https://github.com/bjascob/pyInflect).  LemmInflect was created to address some of the shortcoming of that project and add features, such as...
 
 * Independence from the spaCy lemmatizer
 * Neural nets to disambiguate out of vocab morphology
 * Unigrams to dismabiguate spellings and multiple word forms
 
-Unlike pyInflect, the new system is derived from the **[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)** which contains an extensive set information on English word forms.
+
+## Documentation
+For the latest documentation, see **[ReadTheDocs](https://lemminflect.readthedocs.io/en/latest/)**.
+
 
 ## Accuracy of the Lemmatizer
-The accuracy of LemmInflect and several other popular NLP utilities was tested using the **[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other)** as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
+The accuracy of LemmInflect and several other popular NLP utilities was tested using the [Automatically Generated Inflection Database (AGID)](http://wordlist
+.aspell.net/other) as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
 
 ```
 | Package          | Verb  |  Noun | ADJ/ADV | Overall |  Speed  |
@@ -25,13 +34,11 @@ The accuracy of LemmInflect and several other popular NLP utilities was tested u
 | Stanford CoreNLP | 87.6% | 93.1% |   0.0%  |  n/a    |  n/a    |
 | spaCy            | 79.4% | 88.9% |  60.5%  |  84.7%  |  5.0 uS |
 | NLTK             | 53.3% | 52.2% |  53.3%  |  52.6%  | 13.0 uS |
-| Empty function   |  0.4% |  3.1% |   0.0%  |  n/a    |  2.0 uS |
 |----------------------------------------------------------------|
 ```
-* Speed is in micro-seconds per lemma
-* The "Empty function" simply returns the test inflection as the lemma.  It provides a baseline for speed to run the test itself.
+* Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU.
 * The Stanford and CLiPS lemmatizers don't accept part-of-speech information and in the case of the pattern.en, the methods was setup specifically for verbs, not as a lemmatizer for all word types.
-* The Stanford CoreNLP lemmatizer is a Java package and testing was done via the built-in HTML server, thus the time measurement is invalid.
+* The Stanford CoreNLP lemmatizer is a Java package and testing was done via the built-in HTML server, thus the speed measurement is invalid.
 
 
 ## Requirements and Installation
@@ -48,48 +55,43 @@ The code base also includes library functions and scripts to create the various 
 * Python scripts for loading and parsing the SPECIALIST Lexicon
 * Nerual network training based on Keras and Tensorflow
 
-If you want to use the setup scripts, there are additional dependencies such as NLTK, Keras, and Tensorflow (or other Keras backend).  None of these are required for run-time inflection or lemmatization.
+None of these are required for run-time operation.  However, if you want of modify the system, see the [documentation](https://lemminflect.readthedocs.io/en/latest/test_dev/) for more info.
 
 
-## Usage as an Extension to Spacy
-To use with Spacy, you need Spacy version 2.0 or later.  Versions 1.9 and earlier do not support the extension methods used here.
+## Library Usage
+To lemmatize a word use the method `getLemma()`.  This takes a word and a Universal Dependencies tag and returns the lemmas as a list of possible spellings.  The dictionary system is used first, and if no lemma is found, the rules system is employed.
+```
+> from lemminflect import getLemma
+getLemma('watches', upos='VERB')
+('watch',)
+```
+To inflect words, use the method `getInflection`.   This takes a lemma and a Penn Treebank tag and returns a tuple of the specific inflection(s) associated with that tag.  Similary to above, the dictionary is used first and then inflection rules are applied if needed..
+```
+> from lemminflect import getInflection
+> getInflection('watch', tag='VBD')
+('watched',)
 
-To use as an extension to Spacy, first import the module.  This will create new `lemma` and `inflect` methods for each spaCy `Token`.  The `inflect` method takes a Penn Treebank tag as its parameter.  That method returns the inflected form of the word based on the supplied treekbank tag.
+> getInflection('xxwatch', tag='VBD')
+('xxwatched',)
+```
+The library provides lower-level functions to access the dictionary and the OOV rules directly.  For a detailed description see [Lemmatizer](https://lemminflect.readthedocs.io/en/latest/lemmatizer/) or [Inflections](https://lemminflect.readthedocs.io/en/latest/inflections/).
+
+
+## Usage as a Spacy Extension
+To use as an extension, you need spaCy version 2.0 or later.  Versions 1.9 and earlier do not support the extension methods used here.
+
+To setup the extension, first import `lemminflect`.  This will create new `lemma` and `inflect` methods for each spaCy `Token`. The methods operate similarly to the methods described above, with the exception that a string is returned, containing the most common spelling, rather than a tuple.
 ```
 > import spacy
 > import lemminflect
 > nlp = spacy.load('en_core_web_sm')
-> tokens = nlp('I am testing this example.')
-> tokens[2]._.lemma()
+> doc = nlp('I am testing this example.')
+> doc[2]._.lemma()
 test
 
-> tokens[4]._.inflect('NNS')
+> doc[4]._.inflect('NNS')
 examples
 ```
-
-## Usage Standalone
-To use standalone, call the methods `getAllInflections` and/or  `getInflection`.  The first method returns all entries in the inflection lookup as a dictionary of forms, where each form entry is a tuple with one or more spellings/forms for a given treebank tag.  The optional parameter `upos` can be used to limited the returned data to specific parts of speech.  The method `getInflection` takes a lemma and a Penn Treebank tag and returns a tuple of the specific inflection(s) associated with that tag.  Similarly, the methods `getAllLemmas` and `getLemma` will return the lemma for the word.
-```
-> from lemminflect import getAllInflections, getInflection
-> from lemminflect import getAllLemmas, getLemma
-> getAllInflections('watch')
-{'NN': ('watch',), 'NNS': ('watches', 'watch'), 'VB': ('watch',), 'VBD': ('watched',), 'VBG': ('watching',), 'VBZ': ('watches',),  'VBP': ('watch',)}
-
-> getAllInflections('watch', upos='VERB')
-{'VB': ('watch',), 'VBP': ('watch',), 'VBD': ('watched',), 'VBG': ('watching',), 'VBZ': ('watches',)}
-
-> getInflection('watch', tag='VBD')
-('watched',)
-
-> getAllLemmas('watches')
-{'NOUN': ('watch',), 'VERB': ('watch',)}
-
-getLemma('watches', upos='VERB')
-('watch',)
-```
-When the tuple contains multiple words, they are sorted by their unigram corpus probability so the first form (`form[0]`) is the most common.
-
-For a list of methods and parameters see the section below.
 
 ## Issues
 If you find a bug, please report it on the **[GitHub issues list](https://github.com/bjascob/LemmInflect/issues)**.  However be aware that when in comes to returning the correct inflection there are a number of different types of issues that can arise.  Some of these are not  readily fixable.  Issues with inflected forms include...
@@ -99,59 +101,3 @@ If you find a bug, please report it on the **[GitHub issues list](https://github
 * Infections that are not fully specified by the tag (ie.. be/VBD can be "was" or "were")
 
 One common issue is that some forms of the verb "be" are not completely specified by the treekbank tag.  For instance be/VBD inflects to either "was" or "were" and be/VBP inflects to either "am", or "are".  In order to disambiguate these forms, other words in the sentence need to be inspected.  At this time, LemmInflect doesn't include this functionality.
-
-
-## Tags
-The module determines the inflection(s) returned by suppling either a **[Universal Dependencies](https://universaldependencies.org/u/pos/)** or **[Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html)** tag.  Not all of the tags in these sets are used by LemmInflect.  The following is a list of the various types and tags used...
-
-    upos = 'ADJ'
-    * JJ      Adjective
-    * JJR     Adjective, comparative
-    * JJS     Adjective, superlative
-
-    upos = 'ADV'
-    * RB      Adverb
-    * RBR     Adverb, comparative
-    * RBS     Adverb, superlative
-
-    upos = 'NOUN'
-    * NN      Noun, singular or mass
-    * NNS     Noun, plural
-    *
-    upos = 'PROPN'
-    * NNP     Proper noun, singular or mass
-    * NNPS    Proper noun, plural
-
-    upos = 'VERB', 'AUX'
-    * VB      Verb, base form
-    * VBD     Verb, past tense
-    * VBG     Verb, gerund or present participle
-    * VBN     Verb, past participle
-    * VBP     Verb, non-3rd person singular present
-    * VBZ     Verb, 3rd person singular present
-    * MD      Modal
-
-## Function Reference
-Note the `Lemmatizer` and `Inflections` objects are implemented as singletons so you can safely instantiate them multiple times.  Data files are lazy loaded and will only be loaded with the first instance created.
-```
-Methods from lemminflect that utilize the Lemmatizer() class
-    def getAllLemmas(word, upos=None)
-    def getAllLemmasOOV(word, upos)
-    def getLemma(word, upos, lemmatize_oov=True)
-    def spacy.Token._.lemma(form_num=0, lemmatize_oov=True, on_empty_ret_word=True)
-
-Methods from lemminflect that use the Inflections() class
-    def getAllInflections(lemma, upos=None)
-    def getAllInflectionsOOV(lemma, upos)
-    def getInflection(lemma, tag, inflect_oov=True)
-    def spacy.Token._.inflect(tag, form_num=0, inflect_oov=True, on_empty_ret_word=True)
-    def setUseInternalLemmatizer(TF=True)
-
-Parameters for these functions are..
-    upos : Universal Dependencies part of speech the return is limited to.
-    tag :  The Penn Treekbank tag used to specify the returned word form.
-    lemmatize_oov / inflect_oov : When False, only the dictionary will be used, not the OOV/rules system.
-    form_num : When multiple spellings exist, this determines which is returned.
-    on_empty_ret_word : If no result is found, return the original word.
-```
-For inflections, the word is first internally lemmatized to it's base form and then inflected to the requested form.  The function `setUseInternalLemmatizer` determines if the spaCy extension method `inflect` uses the spaCy lemmatizer or LemmInflect's.
