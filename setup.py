@@ -9,8 +9,9 @@ import setuptools
 # fail if those aren't installed first.
 from lemminflect import __version__
 
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+with open('README.md', 'r') as fh:
+    readme = fh.read()
+    readme = readme.replace('![(icon)](docs/img/favicon.ico)', '')
 
 setuptools.setup(
     name='lemminflect',
@@ -18,7 +19,7 @@ setuptools.setup(
     author='Brad Jascob',
     author_email='bjascob@msn.com',
     description='A python module for English lemmatization and inflection.',
-    long_description=long_description,
+    long_description=readme,
     long_description_content_type='text/markdown',
     url='https://github.com/bjascob/LemmInflect',
     # The following adds data files for the binary distribution only (not the source)
@@ -29,6 +30,7 @@ setuptools.setup(
     include_package_data=True,
     package_data={'lemminflect':['resources/*']},
     packages=setuptools.find_packages(),
+    install_requires=['numpy'],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
