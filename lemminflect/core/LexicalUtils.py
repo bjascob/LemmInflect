@@ -14,7 +14,13 @@ def tagToUPos(tag):
         return 'PROPN'
     elif tag[0] == 'N':
         return 'NOUN'
-    elif tag[0] == 'V' or tag == 'MD':
+    elif tag[0] == 'V':
+        return 'VERB'
+    # Since this function is currently only used in Inflections.py return 'VERB'
+    # for 'MD'.  Modals are tagged in inflections.py as VB/VBD because Penn tags have no AUX
+    # However, in the lemma lookup, they are under AUX because that is keyed by upos which
+    # has the AUX type (but no MODAL).  Yes, this is confusing and a bit fragile.
+    elif tag == 'MD':
         return 'VERB'
     else:
         return None
@@ -22,7 +28,7 @@ def tagToUPos(tag):
 # Convert upos to a list of candidate Penn tags
 def uposToTags(upos):
     upos = upos.upper()
-    if upos == 'VERB':
+    if upos in ['VERB', 'AUX']:
         return ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'MD']
     elif upos == 'ADJ':
         return ['JJ', 'JJR', 'JJS']
@@ -37,7 +43,7 @@ def uposToTags(upos):
 def categoryToUPos(category):
     upos = category.upper()
     if upos == 'MODAL':
-        upos = 'VERB'
+        upos = 'AUX'
     return upos
 
 # Convert upos to category
@@ -90,11 +96,6 @@ def pennTagAlts(tag):
         return ['RB' + tag[2:]]
     if tag.startswith('RB'):
         return['JJ' + tag[2:]]
-    # Modal verbs: (can, could) (may, might) (will, would) (shall, should) and "must"
-    # I'm just lumping these under verbs when reading in the file
-    if tag == 'MD':
-        return ['VB', 'VBD']
-    # return empty if nothing else to try
     return []
 
 # Get the capitalization style of the word

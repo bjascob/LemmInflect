@@ -40,7 +40,7 @@ def morph(lex_entry, word):
     for variant in lex_entry.variants:
         # Handle aux/modals
         if isinstance(variant, AuxModVariant):
-            # filter out all the negative variants 
+            # filter out all the negative variants
             if not variant.negative:
                 entry.forms.add( Form(variant.inflection, variant.form, 'auxmod') )
         # Handle irreg, reg, ...
@@ -91,9 +91,14 @@ if __name__ == '__main__':
 
     # Special cases
     for entry in entries:
-        if entry.EUI == 'E0043086':
+        # add the token n't as a spelling variant.
+        # Spelling variants will show up as a separate word in the forms table
+        if entry.EUI == 'E0043086': # base='not'  cat='adv'
             entry.spelling_variant.append("n't")  # not
-            break
+        # For some reason modals don't have their base form listed as a form in the LEXICON.
+        # This messes up the lemmatizer logic since it can't lemmatize itself.  Add these.
+        if entry.category == SKey.MODAL:
+            entry.variants.add( AuxModVariant(entry.base, 'infinitive', [], False) )
 
     # Run through the lexicon and add inflection forms
     # Use a dict to gather data.  Entries are unique for the key = (base, category)

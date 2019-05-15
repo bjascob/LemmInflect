@@ -10,7 +10,7 @@ from .. import config
 
 # This is the top-level class that agregates logic.  It calls LemmaRules for OOV words.
 class Lemmatizer(Singleton):
-    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'MODAL', 'AUX']
+    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'AUX']
     def __init__(self, lemma_lu_fn=config.lemma_lu_fn, overrides_fn=config.lemma_overrides_fn):
         self.lemma_lu_fn = lemma_lu_fn
         self.overrides_fn = overrides_fn

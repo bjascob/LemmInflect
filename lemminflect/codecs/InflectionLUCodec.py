@@ -3,33 +3,25 @@ from   ..slexicon.SKey import *
 
 
 # Helper class for reading/writing lookup csv file
-# SPECIALIST Lexicon and the forms_table.dat.gz has 'aux' and 'modal' which are types of verbs
-#   * modals are "can, may, shall, will".  The all have only one form, 'past' plus the base form
-#     lump modals under generic verbs since their forms are just a subset of a verbs
-#   * aux are "be, do, have".  These 3 are oddballs so handle them separately
 class InflectionLUCodec(object):
     # SPECIALIST LEXICON keys, used for writing
+    # This represents the order of the forms written to lu.csv is SLexicon key terms
     slex_dict = {}
     slex_dict[SKey.NOUN]  = [SKey.PLURAL]
     slex_dict[SKey.ADJ]   = [SKey.COMPARATIVE, SKey.SUPERLATIVE]
     slex_dict[SKey.ADV]   = [SKey.COMPARATIVE, SKey.SUPERLATIVE]
     slex_dict[SKey.VERB]  = [SKey.PAST, SKey.PAST_PART, SKey.PRES_PART, SKey.THIRD_PRES]
-    slex_dict[SKey.AUX]   = [SKey.PAST, SKey.PAST_PART, SKey.PRES_PART, SKey.THIRD_PRES]
-    slex_dict[SKey.MODAL] = [SKey.PAST]
-    # Penn treebank tags, used for reading
+    #slex_dict[SKey.AUX]   = [SKey.PAST, SKey.PAST_PART, SKey.PRES_PART, SKey.THIRD_PRES]
+    #slex_dict[SKey.MODAL] = [SKey.PAST]
+    # Penn treebank tags, used for reading.
+    # This represents the order of forms read from lu.csv in Penn tag terms
     penn_dict = {}
     penn_dict[SKey.NOUN]  = ['NNS']                         # base is SINGULAR = NN
     penn_dict[SKey.ADJ]   = ['JJR', 'JJS']                  # base is POSITIVE = JJ
     penn_dict[SKey.ADV]   = ['RBR', 'RBS']                  # base is POSITIVE = RB
     penn_dict[SKey.VERB]  = ['VBD', 'VBN', 'VBG', 'VBZ']    # base is INFINATIVE = VB, VBP
-    penn_dict[SKey.AUX]   = []                              # use special aux_verbs below
-    penn_dict[SKey.MODAL] = ['VBD']
-    # Special rules Aux verbs
-    aux_verbs = {}
-    aux_verbs['be'] = {'VB':('be',), 'VBD':('was', 'were'), 'VBG':('being',), 'VBN':('been',),
-                       'VBP':('am', 'are'), 'VBZ':('is',)}
-    aux_verbs['do'] = {'VB':('do','does'), 'VBD':('did',)}
-    aux_verbs['have'] = {'VB':('have', 'has'), 'VBD':('had',), 'VBG':('having',)}
+    #penn_dict[SKey.AUX]   = ['VBD', 'VBN', 'VBG', 'VBZ']    # will be overridden below
+    #penn_dict[SKey.MODAL] = ['VBD']                         # will be overridden below
 
     @classmethod
     def toString(cls, word, category, forms_dict):
@@ -64,16 +56,14 @@ class InflectionLUCodec(object):
             forms_dict['JJ'] = (word,)
         elif category == SKey.ADV:
             forms_dict['RB'] = (word,)
-        elif category in [SKey.VERB, SKey.MODAL]:
+        elif category in [SKey.VERB]:
             forms_dict['VB'] = (word,)
             forms_dict['VBP'] = (word,)
-        elif category == SKey.AUX:  # handle aux's separately
-            return word, SKey.VERB, cls.aux_verbs[word]
+        # Don't read aux and modal from the look-up.  Get them later
+        elif category in [SKey.AUX, SKey.MODAL]:
+            forms_dict['VB'] = (word,)
         else:
             raise ValueError('Unrecognized category: %s' % category)
-        # Convert modals to VERBs
-        if category == SKey.MODAL:
-            category = SKey.VERB
         return word, category, forms_dict
 
     # Load inflections_lu.csv
@@ -88,4 +78,25 @@ class InflectionLUCodec(object):
                     infl_dict[word] = forms_dict
                 else:
                     infl_dict[word].update(forms_dict)
+        # Update the dictionary with hard-coded values for aux and modals.
+        infl_dict = cls.updateForAuxMod(infl_dict)
         return infl_dict
+
+    # On reading, hard-code aux/modals since the don't follow the rules very well
+    # This will override any previously read in values
+    @staticmethod
+    def updateForAuxMod(d):
+        # Modal auxillary verbs
+        d['can']    = {'VB':('can',),   'VBD':('could',)}
+        d['may']    = {'VB':('may',),   'VBD':('might',)}
+        d['will']   = {'VB':('will',),  'VBD':('would',)}
+        d['shall']  = {'VB':('shall',), 'VBD':('should',)}
+        d['must']   = {'VB':('must',),  'VBD':('must',)}
+        d['ought']  = {'VB':('ought',), 'VBD':('ought',)}
+        d['dare']   = {'VB':('dare',)}
+        # Auxillaries verbs
+        d['be']     = {'VB':('be',), 'VBD':('was', 'were'), 'VBG':('being',), 'VBN':('been',),
+                       'VBP':('am', 'are'), 'VBZ':('is',)}
+        d['do']     = {'VB':('do','does'), 'VBD':('did',)}
+        d['have']   = {'VB':('have', 'has'), 'VBD':('had',), 'VBG':('having',)}
+        return d

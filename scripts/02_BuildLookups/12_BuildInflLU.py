@@ -52,6 +52,9 @@ if __name__ == '__main__':
     multi_spell_ctr = 0
     with gzip.open(config.inflection_lu_fn, 'wb') as f:
         for (base, category), forms in sorted(ftable.data.items()):
+            # Skip aux and modals. They will be added from hard-coded values on load
+            if category in [SKey.MODAL, SKey.AUX]:
+                continue            
             # forms are lists of [inflection, infl_type, source] that needs to be disambiguated
             forms_dict = {}
             infl_types = sorted(set([f[1] for f in forms]))

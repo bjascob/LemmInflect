@@ -20,7 +20,7 @@ class Unigrams(object):
     # will cause a problem if trying to use this on a sentence (ie.. first word capitalized).
     def getCountForLemma(self, word, category):
         count = 0
-        if category == SKey.VERB:
+        if category in [SKey.VERB, SKey.MODAL, SKey.AUX]:
             count += self.getCount(word, 'VB')
             count += self.getCount(word, 'MD')
         elif category == SKey.ADJ:

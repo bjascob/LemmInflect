@@ -1,6 +1,10 @@
 ,NN,s
 ',NN,'s
 ',NNP,'s
+'S,VBZ,'s
+'m,VBP,'m
+'re,VBP,'re
+'s,VBZ,'s
 A,NN,a
 A,NNP,a
 ACT,NNP,act
@@ -105,6 +109,7 @@ Aholiab,NNP,aholiab
 Aholibah,NNP,aholibah
 Aholibamah,NNP,aholibamah
 Ai,NNP,ai
+Ai,VBP,ai
 Aiah,NNP,aiah
 Aijalon,NNP,aijalon
 Ain,NNP,ain
@@ -137,6 +142,7 @@ Already,RB,already
 Also,RB,also
 Altogether,RB,altogether
 Always,RB,always
+Am,VBP,am
 Amalek,NNP,amalek
 Amalekite,NNPS,amalekites
 Amariah,NNP,amariah
@@ -218,6 +224,7 @@ Archite,NNP,archite
 Archive,NNP,archive
 Archy,NNP,archy
 Arctic,NNP,arctic
+Are,VBP,are
 Argob,NNP,argob
 Ariel,NNP,ariel
 Arimathaea,NNP,arimathaea
@@ -401,6 +408,7 @@ Began,NNP,began
 Begin,VB,begin
 Behold,NNP,behold
 Behold,VB,behold
+Being,VBG,being
 Bela,NNP,bela
 Belial,NNP,belial
 Believe,VB,believe
@@ -855,9 +863,7 @@ Cyrene,NNP,cyrene
 Cyrus,NNP,cyrus
 Czar,NNP,czar
 DEAR,NNP,dear
-DO,VB,do
 DO,VBD,did
-DO,VBP,do
 DUODECIMO,NN,duodecimo
 Dagda,NNP,dagda
 Dagger,NNP,dagger
@@ -879,7 +885,6 @@ Daniel,NNP,daniel
 Danish,NNP,danish
 Danite,NNPS,danites
 Dante,NNP,dante
-Dare,VB,dare
 Darius,NNP,darius
 Dark,NNP,dark
 Darkness,NNP,darkness
@@ -957,10 +962,8 @@ Diuell,NNP,diuell
 Divine,NNP,divine
 Dixon,NNP,dixon
 Dixon,VBN,dixon
-Do,VB,do
 Do,VBD,did
 Do,VBN,done
-Do,VBP,do
 Do,VBZ,does
 Doct,NN,doct
 Doct,NNP,doct
@@ -1550,7 +1553,6 @@ Guinea,NNP,guinea
 Gunus,NNP,guni
 Gutenberg,NNP,gutenberg
 HAVE,VBD,had
-HAVE,VBP,have
 HAVE,VBZ,has
 HER,NNP,her
 HERE,RB,here
@@ -1636,10 +1638,8 @@ Hattush,NNP,hattush
 Haue,NN,haue
 Haue,NNP,haue
 Haul,NNP,haul
-Have,VB,have
 Have,VBD,had
 Have,VBG,having
-Have,VBP,have
 Have,VBZ,has
 Havilah,NNP,havilah
 Hawker,NNP,hawker
@@ -1818,6 +1818,7 @@ I,NNP,i
 I'll,NNP,i'll
 II,NNP,ii
 III,NNP,iii
+IS,VBZ,is
 IT,NN,it
 IV,NN,iv
 IV,NNP,iv
@@ -1860,6 +1861,7 @@ Ira,NNP,ira
 Ireland,NNP,ireland
 Irish,JJ,irish
 Iron,NNP,iron
+Is,VBZ,is
 Is't,NNP,is't
 Isaac,NNP,isaac
 Isabella,NN,isabella
@@ -2367,7 +2369,6 @@ Matter,NNP,matter
 Matthew,NNP,matthew
 Mattithiah,NNP,mattithiah
 Maurice,NNP,maurice
-May,NNP,may
 Maybe,RB,maybe
 Mayhew,NNP,mayhew
 Mayor,NNP,mayor
@@ -3230,7 +3231,6 @@ Shadrach,NNP,shadrach
 Shake,VB,shake
 Shakespeare,NNP,shakespeare
 Shakspere,NNP,shakspere
-Shall,NNP,shall
 Shallum,NNP,shallum
 Shalt,NNP,shalt
 Shame,NN,shame
@@ -3783,6 +3783,7 @@ Volumnius,NNP,volumnius
 Vow,NNP,vow
 Vpon,NNP,vpon
 Vpon,VB,vpon
+WA,VBD,was
 WANT,NNP,want
 WASTE,NNP,waste
 WHALE,NN,whale
@@ -3791,6 +3792,7 @@ WHALE,NNS,whale
 WHALE,VB,whaling
 WHEELER,NNP,wheeler
 WILLIAM,NNP,william
+Wa,VBD,was
 Wagga,NNP,wagga
 Wait,VB,wait
 Wait,VBG,waiting
@@ -3828,6 +3830,7 @@ Well,RBR,better
 Well,RBS,best
 Wells,NNP,wells
 Wentworth,NNP,wentworth
+Were,VBD,were
 West,NNP,west
 Western,JJ,western
 Western,NNP,western
@@ -3871,7 +3874,6 @@ Wife,NN,wife
 Wife,NNP,wife
 Wild,NNP,wild
 Wilkinson,NNP,wilkinson
-Will,NNP,will
 William,NNP,william
 Williams,NNP,williams
 Willoughby,NN,willoughby
@@ -4009,11 +4011,13 @@ afflict,JJ,afflicted
 affright,JJ,affrighted
 afore,VBP,afore
 afresh,NNS,afresh
+ai,VBP,ai
 alarm,JJ,alarmed
 alarmy,JJ,alarming
 alight,VBD,alighted
 aliue,NNS,aliue
 allege,JJ,alleged
+am,VBP,am
 amaze,JJ,amazed
 amuse,JJ,amused
 amy,RB,amiss
@@ -4022,6 +4026,7 @@ anarch,JJ,anarchist
 answereth,VBD,answereth
 appeareth,VBZ,appeareth
 arch,NNS,arches
+are,VBP,are
 ariseth,VBD,ariseth
 art,VBP,art
 asleepe,NNS,asleepe
@@ -4037,6 +4042,8 @@ barren,NNS,barren
 beare,VBP,beare
 beareth,VBP,beareth
 becometh,VBD,becometh
+been,VBD,been
+been,VBN,been
 beene,NNS,beene
 beene,VBN,beene
 begat,VBD,begat
@@ -4044,6 +4051,7 @@ beget,VBD,begotten
 begge,NNS,begge
 behold,VBN,behold
 beholdeth,VBD,beholdeth
+being,VBG,being
 believeth,VBD,believeth
 believeth,VBP,believeth
 belongeth,VBD,belongeth
@@ -4155,6 +4163,8 @@ distress,NNS,distresses
 dive,VBD,dived
 divideth,VBZ,divideth
 do,JJS,dost
+do,VBN,done
+do,VBZ,does
 doe,JJS,doest
 doe,VBP,doe
 doeth,VBD,doeth
@@ -4287,6 +4297,7 @@ hath,VBD,hath
 hath,VBP,hath
 hath,VBZ,hath
 haue,VBP,haue
+have,VBZ,has
 headsmen,NNS,headsmen
 healeth,VBD,healeth
 heare,VBP,heare
@@ -4326,6 +4337,7 @@ intoxicate,JJ,intoxicated
 intreat,VBP,intreat
 involve,JJ,involved
 irritate,JJ,irritated
+is,VBZ,is
 join'd,NNS,join'd
 joy,VBP,joy
 judgest,VBP,judgest
@@ -4684,6 +4696,7 @@ vertebra,NN,vertebrae
 vnder,VBP,vnder
 vnfold,VBD,vnfold
 vse,VBP,vse
+wa,VBD,was
 walketh,VBD,walketh
 wall,JJ,walled
 wandereth,VBD,wandereth
@@ -4693,6 +4706,7 @@ wax,RB,waxen
 wed,VBN,wedded
 weepe,NNS,weepe
 weepeth,VBD,weepeth
+were,VBD,were
 whale,VBP,whale
 whalemen,NNS,whalemen
 whaly,JJ,whaling

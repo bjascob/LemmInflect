@@ -13,7 +13,7 @@ from   .. import config
 # This is the top-level class that agregates logic to get inflections
 # from the dictionary or by using InflectionRules
 class Inflections(Singleton):
-    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'MODAL', 'AUX']
+    DICT_UPOS_TYPES = ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV', 'AUX']
     def __init__(self, infl_lu_fn=config.inflection_lu_fn, overrides_fn=config.infl_overrides_fn):
         self.infl_lu_fn = infl_lu_fn
         self.overrides_fn = overrides_fn
@@ -139,7 +139,7 @@ class Inflections(Singleton):
             lemmas = ()
             upos = tagToUPos(tag)
             if upos in self.int_lemma.DICT_UPOS_TYPES:
-                lemmas = self.int_lemma.getLemma(token.text, token.pos_, lemmatize_oov=True)
+                lemmas = self.int_lemma.getLemma(token.text, upos, lemmatize_oov=True)
             if not lemmas:
                 lemma = token.text
             else:
@@ -150,7 +150,10 @@ class Inflections(Singleton):
         caps_style = getCapsStyle(token.text)
         lemma = applyCapsStyle(token.lemma_, caps_style)
         # Find the the inflections for the lemma
-        inflections = self.getInflection(lemma, tag, inflect_oov)
+        inflections = ()
+        upos = tagToUPos(tag)
+        if upos in self.DICT_UPOS_TYPES:
+            inflections = self.getInflection(lemma, tag, inflect_oov)
         if not inflections:
             if on_empty_ret_word:
                 return token.text

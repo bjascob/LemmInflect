@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import logging
 from   collections import Counter, defaultdict
 import nltk
 import spacy
@@ -21,6 +22,10 @@ from   lemminflect.utils.CorpusUtils     import isASCIIWord
 # if Spacy changes their lemmatizer or if a different lemmatizer is used consider re-running
 # this script.
 if __name__ == '__main__':
+    level  = logging.WARNING
+    format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'
+    logging.basicConfig(level=level, format=format)
+
     # Configuration
     #corp_fns  = ['austen-emma.txt']                # 7,491 sentences
     corp_fns  = nltk.corpus.gutenberg.fileids()     # 18 files with 94K sentences
@@ -59,16 +64,15 @@ if __name__ == '__main__':
         for word in doc:
             if not isASCIIWord(word.text) or not word.tag_:
                 continue
-            # Skip "be" since it's an oddball case where the inflection can't be determiened
-            # from the Penn tag alone.
-            if word.lemma_.lower() == 'be':
+            # Skip aux and modal aux verbs since they're oddballs anyway
+            if word.text.lower() in ['be', 'have', 'do', 'will', 'can', 'may', 'shall', 'will', 'ought', 'dare']:
                 continue
             # Only inflect Nouns, Verbs, Adverbs and Adjectives (and not Particles)
             ptype = word.tag_[0]
             if ptype in ['N', 'V', 'R', 'J'] and word.tag_!='RP':
                 infl = word._.inflect(word.tag_, inflect_oov=inflect_oov)
                 # Note if inflections/lemmatizer has 'on_empty_ret_word' = True (default) will likely
-                # never get a None return. inflect_oov also default to true so this will prevent None returns.
+                # never get a None return. inflect_oov also defaults to true so this will prevent None returns.
                 if infl is None:
                     continue
                 lemma = word.lemma_  #spacy lemma
