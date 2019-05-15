@@ -34,8 +34,8 @@ The module determines the lemma(s) and inflection(s) returned by supplying eithe
 ## A Note on AUX and MODAL types
 Verbs can be further subdivided into auxiliary verbs, some of which can be modal auxiliary verbs<br/>
 The Penn Treebank tags have 'MD' but no 'AUX' category<br/>
-UPOS tags have 'AUX' but no 'MD'<br/>
+UPOS tags have 'AUX' but no 'MODAL'<br/>
 The SPECIALIST Lexicon's "category" system has both<br/>
-To make things more confusing, tagging of will often label these words as verbs.  Luckily the list of these words is small.
+To make things more confusing, taggers will sometimes label these as verbs.  Luckily the list of these words is small.
 * AUX verbs: have(has, had), be(is, was, been), do(does, did)
 * MODAL verbs: can, could, may, might, will, would, shall, should, must, ought, dare
