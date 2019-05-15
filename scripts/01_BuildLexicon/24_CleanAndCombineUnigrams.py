@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
-import re
 from   collections import Counter
 from   lemminflect.utils.Unigrams import Unigrams
+from   lemminflect.utils.CorpusUtils import isASCIIWord
 from   lemminflect import config
 
 
@@ -12,32 +12,20 @@ from   lemminflect import config
 # Note that reloading the csv file below, will filter out any words with commas in them
 def cleanCounter(counter):
     new_counter = Counter()
-    # ^ => start of string   $ => end of string
-    # + => match 1 to unliminted times
-    # [a-zA-Z\-] match a single character a-z, A-Z or -
-    # !! Note this will through out contractions (ie.. ' not included)
-    # re.search: Scan through string and return the first location where the re produces a match
-    # This will return a match object if ONLY the defined characters are present
-    regex = re.compile(r'^[a-zA-Z\-]+$')
     for key, count in counter.items():
         word, pos = key
-        # Filter out words with more than one hyphen or has an undesired POS type
-        if not word:
+        # Filter out words that don't look like ascii words
+        if not isASCIIWord(word):
             continue
-        if '--' in word:
-            continue
-        if word[0] == '-' or word[-1] == '-':
-            continue
-        if pos in ['HYPH', 'NFP', 'SYM', 'XX', 'ADD']:  # May be spacy specific
+        # Filter out odd POS types. May be spacy specific
+        if pos in ['HYPH', 'NFP', 'SYM', 'XX', 'ADD']:  
             continue
         # Lower-case anything that is not a proper noun
         if pos not in ['NNP', 'NNPS']:
             word = word.lower()
             key = (word, pos)
-        # Add anything that contains only letters or hyphens
         # Sum counts since keys may be combined when lower-casing words
-        if regex.search(word):
-            new_counter[key] += count
+        new_counter[key] += count
     return new_counter
 
 

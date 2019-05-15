@@ -9,6 +9,7 @@ from   lemminflect.core.InflectionRules         import *
 from   lemminflect.core.LexicalUtils            import categoryToUPos
 from   lemminflect.core.LexicalUtils            import getCapsStyle, applyCapsStyleToDict
 from   lemminflect import config
+from   lemminflect.utils.CorpusUtils            import isASCIIWord
 
 
 # Simple structs to help with collecting data
@@ -39,8 +40,8 @@ def morph(lex_entry, word):
     for variant in lex_entry.variants:
         # Handle aux/modals
         if isinstance(variant, AuxModVariant):
-            # filter out all the negative variants and contractions (hasn't, 'm, ..)
-            if not variant.negative and variant.inflection.isalpha():
+            # filter out all the negative variants 
+            if not variant.negative:
                 entry.forms.add( Form(variant.inflection, variant.form, 'auxmod') )
         # Handle irreg, reg, ...
         elif isinstance(variant, StandardVariant):
@@ -63,17 +64,6 @@ def morph(lex_entry, word):
         else:
             assert False, 'Data Error'
     return entry
-
-
-
-# To check to to see the unicodes strings only contain ASCII characters
-# try to encode the string to ASCII bytes.
-def isASCII(word):
-    try:
-        word = word.encode('ascii')
-        return True
-    except UnicodeEncodeError:
-        return False
 
 
 # Helper function to add an entry to the dictionary
@@ -116,7 +106,7 @@ if __name__ == '__main__':
         table_entries = updateEntries(table_entries, table_entry)
         # Morph the spelling variants
         for spelling in lex_entry.spelling_variant:
-            if not isASCII(spelling) or not spelling.isalpha():
+            if not isASCIIWord(spelling):
                 continue
             table_entry = morph(lex_entry, spelling)
             table_entries = updateEntries(table_entries, table_entry)

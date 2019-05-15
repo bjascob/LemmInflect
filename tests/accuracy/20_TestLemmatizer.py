@@ -46,7 +46,9 @@ class SpacyLemmatizer(object):
     def getLemmas(self, entry):
         possible_lemmas = set()
         for upos in entry.upos_list:
-            lemmas = self.morphology.lemmatizer(entry.infl, upos)   # Note there's more params here
+            # The 3rd param, morphology=None, only impacts the call to is_base_form()
+            # so omitting it should only impact trying to lemmatize a lemma.
+            lemmas = self.morphology.lemmatizer(entry.infl, upos)
             lemma = lemmas[0]    # See morphology.pyx::lemmatize
             possible_lemmas.add( lemma )
         return possible_lemmas
@@ -145,7 +147,7 @@ def testLemmatizer(tester, lemmatizer, results_dir):
 
 if __name__ == '__main__':
     # config
-    results_dir = './results/'
+    results_dir = '/tmp/'
     smodel      = 'en_core_web_sm'
 
     # Debug return results

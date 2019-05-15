@@ -1,31 +1,15 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
-import re
 from   collections import Counter, defaultdict
 import nltk
 import spacy
 import lemminflect
-from   lemminflect.utils.CorpusUtils import loadNLTKCorpus
-from   lemminflect.utils.ProgressBar import ProgressBar
+from   lemminflect.utils.CorpusUtils     import loadNLTKCorpus
+from   lemminflect.utils.ProgressBar     import ProgressBar
 from   lemminflect.codecs.OverridesCodec import OverridesCodec
 from   lemminflect import config
-
-
-# To check to to see the unicodes strings only contain ASCII characters
-# a to z, hyphen and '.  Recode the word as an ASCII string.
-def isASCIIWord(word):
-    if not word or word[0] == '-' or word[-1] == '-' or '--' in word:
-        return False
-    # ^ => start of string   $ => end of string
-    # + => match 1 to unliminted times
-    # [a-zA-Z\-] match a single character a-z, A-Z or -
-    # re.search: Scan through string and return the first location where the re produces a match
-    # This will return a match object if ONLY the defined characters are present
-    regex = re.compile(r'^[a-zA-Z\-\']+$')
-    if regex.search(word):
-        return True
-    return False
+from   lemminflect.utils.CorpusUtils     import isASCIIWord
 
 
 # This script creates an overrides file that allows the system to overcome issues with
@@ -37,7 +21,6 @@ def isASCIIWord(word):
 # if Spacy changes their lemmatizer or if a different lemmatizer is used consider re-running
 # this script.
 if __name__ == '__main__':
-
     # Configuration
     #corp_fns  = ['austen-emma.txt']                # 7,491 sentences
     corp_fns  = nltk.corpus.gutenberg.fileids()     # 18 files with 94K sentences

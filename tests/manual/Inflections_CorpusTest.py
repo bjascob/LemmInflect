@@ -6,23 +6,7 @@ import nltk
 import spacy
 import lemminflect
 from   lemminflect.utils.ProgressBar   import ProgressBar
-from   lemminflect.utils.CorpusUtils   import loadNLTKCorpus
-
-
-# To check to to see the unicodes strings only contain ASCII characters
-# a to z, hyphen and '.  Recode the word as an ASCII string.
-def isASCIIWord(word):
-    if not word or word[0] == '-' or word[-1] == '-' or '--' in word:
-        return False
-    # ^ => start of string   $ => end of string
-    # + => match 1 to unliminted times
-    # [a-zA-Z\-] match a single character a-z, A-Z or -
-    # re.search: Scan through string and return the first location where the re produces a match
-    # This will return a match object if ONLY the defined characters are present
-    regex = re.compile(r'^[a-zA-Z\-\']+$')
-    if regex.search(word):
-        return True
-    return False
+from   lemminflect.utils.CorpusUtils   import loadNLTKCorpus, isASCIIWord
 
 
 if __name__ == '__main__':
