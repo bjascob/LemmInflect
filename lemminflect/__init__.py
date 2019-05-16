@@ -17,6 +17,8 @@ def getAllLemmasOOV(word, upos):
 def getLemma(word, upos, lemmatize_oov=True):
     return Lemmatizer().getLemma(word, upos, lemmatize_oov)
 
+def isTagBaseForm(tag):
+    return Lemmatizer.isTagBaseForm(tag)
 
 # Inflections is a singleton so this will only instantiate and load the data
 # (via the default fn) the first time it's called.

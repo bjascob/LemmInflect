@@ -144,17 +144,17 @@ class Inflections(Singleton):
     def spacyGetInfl(self, token, tag, form_num=0, inflect_oov=True, on_empty_ret_word=True):
         # Use LemmInflect lemmatizer
         if self.int_lemma is not None:
-            lemmas = ()
-            upos = tagToUPos(tag)
-            if upos in self.int_lemma.DICT_UPOS_TYPES:
-                lemmas = self.int_lemma.getLemma(token.text, upos, lemmatize_oov=True)
-            if not lemmas:
-                lemma = token.text
-            else:
-                lemma = lemmas[0]   # use the first spelling as the default
+            lemma = self.int_lemma.spacyGetLemma(token)
         # Use Spacy lemmatizer
         else:
             lemma = token.lemma_
+            # handle pronouns.  The isTagBaseForm will force the immediate return
+            # of these types anyway.
+            if lemma == '-PRON-':
+                lemma = token.text
+        # If the requested tag to inflect to is a base form already then the lemma is the inflection
+        if Lemmatizer.isTagBaseForm(tag):
+            return lemma
         # Put the caps style from the word on to the lemma to solve spaCy casing issues with lemmas.
         caps_style = getCapsStyle(token.text)
         lemma = applyCapsStyle(lemma, caps_style)

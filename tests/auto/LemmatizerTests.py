@@ -234,6 +234,12 @@ class LemmatizerTests(unittest.TestCase):
         token = self.nlp('I')[0]
         self.assertEqual(token._.lemma(), 'I')
 
+    def testIsTagBaseForm(self):
+        for tag in ['VB', 'NN', 'NNP', 'JJ', 'RB', 'MD', 'DT', 'RP', 'FW', 'IN']:
+            self.assertTrue(lemminflect.isTagBaseForm(tag))
+        for tag in ['NNS', 'NNPS', 'JJR', 'JJS', 'RBR', 'RBS', 'VBD', 'VBG', 'VBZ']:
+            self.assertFalse(lemminflect.isTagBaseForm(tag))
+
 if __name__ == '__main__':
     level  = logging.WARNING
     format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'

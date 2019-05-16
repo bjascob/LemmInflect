@@ -7,7 +7,7 @@ The `Lemmatizer` class converts words from their inflected form to their base fo
 ## Examples
 Usage as a library
 ```
-> from lemminflect import getLemma, getAllLemmas, getAllLemmasOOV
+> from lemminflect import getLemma, getAllLemmas, getAllLemmasOOV, isTagBaseForm
 > getLemma('watches', upos='VERB')
 ('watch',)
 
@@ -16,6 +16,9 @@ Usage as a library
 
 > getAllLemmasOOV('xatches', 'NOUN')
 {'NOUN': ('xatch',)}
+
+> isTagBaseForm('JJ')
+True
 ```
 Usage as a entension to spaCy
 ```
@@ -32,7 +35,7 @@ test
 ```
 getLemma(word, upos, lemmatize_oov=True)
 ```
-This methods aggregates `getAllLemmas` and `getAllLemmasOOV`.  It first tries to find the lemma using the dictionary based lookup.  If no forms are available, it then tries to find the lemma using the rules system.
+This methods aggregates `getAllLemmas` and `getAllLemmasOOV`.  It first tries to find the lemma using the dictionary based lookup.  If no forms are available, it then tries to find the lemma using the rules system.  If a Penn Tag is available, it is best practice to first call `isTagBaseForm` (below), and only call this function if that is `False`.  Doing this will eliminate potentials errors from lemmatizing a word already in lemma form.
 
 Arguments
 
@@ -62,11 +65,21 @@ Arguments
 * **word:** word to lemmatize
 * **upos:** Universal Dependencies part of speech tag the returned values are limited to
 
+**isTagBaseForm**
+```
+isTagBaseForm(tag)
+```
+Returns `True` or `False` if the Penn Tag is a lemma form.  This is useful since lemmatizing a lemma can lead to errors.  The upos tags used in the above methods don't have enough information to determine this, but the Penn tags do.
+
+Arguments
+
+* **tag** Penn Treebank tag
+
 **Spacy Extension**
 ```
 Token._.lemma(form_num=0, lemmatize_oov=True, on_empty_ret_word=True)
 ```
-The extension is setup in spaCy automatically when LemmInflect is imported.  The above function defines the method added to `Token`.  Internally spaCy passes the `Token` to a method in `Lemmatizer` which in-turn calls `getLemma` and then returns the specified form number (ie.. the first spelling).
+The extension is setup in spaCy automatically when LemmInflect is imported.  The above function defines the method added to `Token`.  Internally spaCy passes the `Token` to a method in `Lemmatizer` which in-turn calls `getLemma` and then returns the specified form number (ie.. the first spelling).  For words who's Penn tag indicates they are already in lemma form, the original word is returned directly.
 
 * **form_num:** When multiple spellings exist, this determines which is returned.  The spellings are ordered from most common to least, as determined by a corpus unigram at the time the dictionary was created.
 * **lemmatize_oov:** Allows the method to use the rules based system for words not in the dictionary

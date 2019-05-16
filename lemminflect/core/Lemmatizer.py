@@ -70,17 +70,32 @@ class Lemmatizer(Singleton):
             return list(lemma_dict.values())[0]  # dict has only 1 value, but the value is a tuple
         assert False, 'More than 1 category value in lemmas: %s' % str(lemma_dict)
 
+    # Look at the Penn tag to see if a word is already in its base form
+    @staticmethod
+    def isTagBaseForm(tag):
+        if tag in ['NNS', 'NNPS']:
+            return False
+        elif len(tag)>2 and tag[:2] in ['JJ', 'RB', 'VB']:
+            return False
+        return True
+
     # Method for extending the spaCy tokens
     # Return the lemma or, if nothing was found, the original word
     def spacyGetLemma(self, token, form_num=0, lemmatize_oov=True, on_empty_ret_word=True):
+        # Don't try to lemmatize words that are already in their base forms
+        if self.isTagBaseForm(token.tag_):
+            return token.text
+        # Get the list of possible lemmas
         lemmas = ()
         if token.pos_ in self.DICT_UPOS_TYPES:
             lemmas = self.getLemma(token.text, token.pos_, lemmatize_oov)
+        # Handle no lemmas returned
         if not lemmas:
             if on_empty_ret_word:
                 return token.text
             else:
                 return None
+        # Or select the correct lemma form number
         elif len(lemmas) > form_num:
             return lemmas[form_num]
         else:

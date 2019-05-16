@@ -23,8 +23,8 @@ class InflectionTests(unittest.TestCase):
     def testSpacyInflect01(self):
         sent = 'I seem to be eating.'
         doc = self.nlp(sent)
-        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=False), None)
-        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=True), 'I')
+        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=False), 'I')
+        self.assertEqual(doc[0]._.inflect('PRP', inflect_oov=False, on_empty_ret_word=True),  'I')
 
         self.assertEqual(doc[1]._.inflect('VBN'), 'seemed')
         self.assertEqual(doc[1]._.inflect('VBD'), 'seemed')
@@ -32,7 +32,7 @@ class InflectionTests(unittest.TestCase):
         self.assertEqual(doc[1]._.inflect('VBZ'), 'seems')
         self.assertEqual(doc[1]._.inflect('VBP'), 'seem')
         self.assertEqual(doc[1]._.inflect('VB'),  'seem')
-        self.assertEqual(doc[2]._.inflect('VB', inflect_oov=False, on_empty_ret_word=False),  None)
+        self.assertEqual(doc[2]._.inflect('VB', inflect_oov=False, on_empty_ret_word=False),  'to')
         self.assertEqual(doc[3]._.inflect('VB'),  'be')
         infls = [doc[3]._.inflect('VBD', 0), doc[3]._.inflect('VBD', 1)]
         self.assertEqual(set(infls), set(['was', 'were']))
@@ -88,7 +88,7 @@ class InflectionTests(unittest.TestCase):
 
     def testCapitalization01(self):
         doc = self.nlp('BRAd Is STANDING.')
-        self.assertEqual(doc[0]._.inflect('NN', inflect_oov=True), 'Brad')
+        self.assertEqual(doc[0]._.inflect('NN', inflect_oov=True), 'BRAd')
         self.assertEqual(doc[1]._.inflect('VB'), 'Be')
         self.assertEqual(doc[2]._.inflect('VB'), 'STAND')
 
