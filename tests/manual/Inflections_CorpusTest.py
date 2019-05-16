@@ -63,6 +63,8 @@ if __name__ == '__main__':
 
     # Print the errors
     print()
+    print("Instances where the system's inflection doesn't match the original word.")
+    print("Note that this assume the original word was tagged.  If it wasn't, ignore the error.")
     print('Errors:      word/Tag : lemma -> inflection')
     for error, count in errors.most_common():
         print('%4d : %s' % (count, error))

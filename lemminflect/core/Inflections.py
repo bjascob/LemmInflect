@@ -100,8 +100,16 @@ class Inflections(Singleton):
         # Get the forms for the lemma from the main database
         # and use the treebank tag to find the correct return value
         # If we don't find anything in the dictionary, use the rules
+        #
+        # There's an issue with proper-nouns that getAllInflections needs upos to
+        # know if a noun's proper.  However, we don't want to limit the return
+        # to a specific upos, otherwise the alternate tags below won't work.  We don't
+        # need those for proper nouns so only pass in upos for 'PROPN'.
         upos = tagToUPos(tag)
-        forms = self.getAllInflections(lemma, upos)  # caps style preserved here
+        if upos == 'PROPN':
+            forms = self.getAllInflections(lemma, upos)  # caps style preserved here
+        else:
+            forms = self.getAllInflections(lemma)  # caps style preserved here
         # Reverse the proper-noun hack.  Since the corpus only has noun in it, the tags will
         # all be NN or NNS (no NNP)
         form = self._extractForm(forms, tag)
@@ -134,7 +142,7 @@ class Inflections(Singleton):
     # Used with spacy ._.inflect
     # Returns a string or None
     def spacyGetInfl(self, token, tag, form_num=0, inflect_oov=True, on_empty_ret_word=True):
-        # Find the lemma by using the internal lemmatizer or get the spaCy lemma
+        # Use LemmInflect lemmatizer
         if self.int_lemma is not None:
             lemmas = ()
             upos = tagToUPos(tag)
@@ -144,11 +152,12 @@ class Inflections(Singleton):
                 lemma = token.text
             else:
                 lemma = lemmas[0]   # use the first spelling as the default
+        # Use Spacy lemmatizer
         else:
             lemma = token.lemma_
         # Put the caps style from the word on to the lemma to solve spaCy casing issues with lemmas.
         caps_style = getCapsStyle(token.text)
-        lemma = applyCapsStyle(token.lemma_, caps_style)
+        lemma = applyCapsStyle(lemma, caps_style)
         # Find the the inflections for the lemma
         inflections = ()
         upos = tagToUPos(tag)
