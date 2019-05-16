@@ -1,27 +1,40 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import os
+from   fnmatch import fnmatch
 from   collections import Counter
-import nltk
 import spacy
 import lemminflect
 from   lemminflect.utils.ProgressBar   import ProgressBar
-from   lemminflect.utils.CorpusUtils   import loadNLTKCorpus, isASCIIWord
+from   lemminflect.utils.CorpusUtils   import isASCIIWord
+from   lemminflect import config
 
+# Get all the files in a directory
+def getFilenames(corp_dir):
+    return [os.path.join(corp_dir, fn) for fn in os.listdir(corp_dir) if fnmatch(fn, 'news*')]
+
+# Load a file and split it into sentences
+def loadFile(fn, max_sents):
+    sents = []
+    with open(fn, errors='replace') as f:
+        for line in f:
+            sents.append(line.strip())
+            if len(sents) >= max_sents:
+                break
+    return sents
 
 if __name__ == '__main__':
     # Configuration
-    corp_fns  = ['austen-emma.txt']                # 7,491 sentences
-    #corp_fns  = nltk.corpus.gutenberg.fileids()     # 18 files with 94K sentences
-    max_chars = int(1e5)
-    lemminflect.setUseInternalLemmatizer(True)      # Use internal or spaCy lemmatizer
+    corp_fn   = sorted(getFilenames(config.bwcorp_dir))[0]  # don't use same file as overrides
+    max_sents = int(1e3)
+    lemminflect.setUseInternalLemmatizer(True)              # Use internal or spaCy lemmatizer
 
-    # Load the corpus to test with
-    print('Loading corpus')
-    sents = []
-    for fn in corp_fns:
-        sents += loadNLTKCorpus(fn, max_chars)
+     # Load the corpus to test with
+    print('Loading corpus from ', corp_fn)
+    sents = loadFile(corp_fn, max_sents)
     print('Loaded {:,} test sentences'.format(len(sents)))
+    print()
 
     # Load Spacy
     print('Loading Spacy model')
@@ -64,7 +77,9 @@ if __name__ == '__main__':
     # Print the errors
     print()
     print("Instances where the system's inflection doesn't match the original word.")
-    print("Note that this assume the original word was tagged.  If it wasn't, ignore the error.")
+    print("Note that this assume the original word was tagged correctly.")
+    print("Watch for invalid tags, and ignore those errors.")
+    print("Remember the lemmatizer only tags the broad UPOS category, not the details Penn Tag.")
     print('Errors:      word/Tag : lemma -> inflection')
     for error, count in errors.most_common():
         print('%4d : %s' % (count, error))
