@@ -1,50 +1,49 @@
 #!/usr/bin/python3
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
+import os
+from   fnmatch import fnmatch
 import logging
 from   collections import Counter, defaultdict
-import nltk
 import spacy
 import lemminflect
-from   lemminflect.utils.CorpusUtils     import loadNLTKCorpus
 from   lemminflect.utils.ProgressBar     import ProgressBar
 from   lemminflect.codecs.OverridesCodec import OverridesCodec
 from   lemminflect import config
 from   lemminflect.utils.CorpusUtils     import isASCIIWord
 
 
-# There are some overrides I don't like.
-# Part of the issue is that the  Gutenberg corpra are mostly older writings and may prefer older
-# word forms.  In the future we could change to a newer corpus, but using what's in NLTK
-# is very convenient.  The BWCorpus is a potential alternative.
+# Get all the files in a directory
+def getFilenames(corp_dir):
+    return [os.path.join(corp_dir, fn) for fn in os.listdir(corp_dir) if fnmatch(fn, 'news*')]
+
+# Load a file and split it into sentences
+def loadFile(fn, max_sents):
+    sents = []
+    with open(fn, errors='replace') as f:
+        for line in f:
+            sents.append(line.strip())
+            if len(sents) >= max_sents:
+                break
+    return sents
+
+# Remove speficic overrides
 def ignoreOverrides(lemma):
-    if lemma in ['old']:
-        return True
     return False
 
-# Filter out some of the really old texts to try to prevent older word styles
-fn_filters = ['bible', 'shakespeare']
-def filterFilenames(fns):
-    filtered_fns = []
-    for fn in fns:
-        if not any(name in fn for name in fn_filters):
-            filtered_fns.append(fn)
-    return filtered_fns
 
 # This script creates an overrides file that allows the system to overcome issues with
 # the way Spacy lemmatizes words and invalid data in the inflection corpus.
-# The created file is a mapping from lemma/tag to the "best" inflection.  
+# The created file is a mapping from lemma/tag to the "best" inflection.  Note that
 if __name__ == '__main__':
     level  = logging.WARNING
     format = '[%(levelname)s %(filename)s ln=%(lineno)s] %(message)s'
     logging.basicConfig(level=level, format=format)
 
     # Configuration
-    #corp_fns  = ['austen-emma.txt']                # 7,491 sentences
-    corp_fns  = nltk.corpus.gutenberg.fileids()     # 18 files with 94K sentences
-    corp_fns  = filterFilenames(corp_fns)
-    max_chars = int(1e9)
-    req_count = 4       # require at least this many instances in corpus for an override
+    corp_fn   = sorted(getFilenames(config.bwcorp_dir), reverse=True)[0]
+    max_sents = int(1e5)  # 94K sentences in NLTK's Gutenberg set but BWCorp's sentences 2X length
+    req_count = 4         # require at least this many instances in corpus for an override
     lemminflect.setUseInternalLemmatizer(True)      # use lemminflect or spaCy's lemmatizer
     inflect_oov = True                              # test/inflect out-of-vocab words
     multiples_fn = 'CorpMultiInfls.txt'
@@ -55,10 +54,8 @@ if __name__ == '__main__':
     print('Using spaCy version ', spacy.__version__)
 
      # Load the corpus to test with
-    print('Loading corpus')
-    sents = []
-    for corp_fn in corp_fns:
-        sents += loadNLTKCorpus(corp_fn, max_chars)
+    print('Loading corpus from ', corp_fn)
+    sents = loadFile(corp_fn, max_sents)
     print('Loaded {:,} test sentences'.format(len(sents)))
     print()
 
