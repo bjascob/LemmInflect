@@ -65,7 +65,7 @@ if __name__ == '__main__':
             if not isASCIIWord(word.text) or not word.tag_:
                 continue
             # Skip aux and modal aux verbs since they're oddballs anyway
-            if word.text.lower() in ['be', 'have', 'do', 'will', 'can', 'may', 'shall', 'will', 'ought', 'dare']:
+            if word.lemma_.lower() in ['be', 'have', 'do', 'will', 'can', 'may', 'shall', 'will', 'ought', 'dare']:
                 continue
             # Only inflect Nouns, Verbs, Adverbs and Adjectives (and not Particles)
             ptype = word.tag_[0]

@@ -1,16 +1,10 @@
 ,NN,s
 ',NN,'s
 ',NNP,'s
-'S,VBZ,'s
-'m,VBP,'m
-'re,VBP,'re
-'s,VBZ,'s
 A,NN,a
 A,NNP,a
 ACT,NNP,act
 AHAB,NN,ahab
-AM,VBP,am
-ARE,VBP,are
 Aaron,NNP,aaron
 Abarim,NNP,abarim
 Abbey,NNP,abbey
@@ -109,7 +103,6 @@ Aholiab,NNP,aholiab
 Aholibah,NNP,aholibah
 Aholibamah,NNP,aholibamah
 Ai,NNP,ai
-Ai,VBP,ai
 Aiah,NNP,aiah
 Aijalon,NNP,aijalon
 Ain,NNP,ain
@@ -142,7 +135,6 @@ Already,RB,already
 Also,RB,also
 Altogether,RB,altogether
 Always,RB,always
-Am,VBP,am
 Amalek,NNP,amalek
 Amalekite,NNPS,amalekites
 Amariah,NNP,amariah
@@ -224,7 +216,6 @@ Archite,NNP,archite
 Archive,NNP,archive
 Archy,NNP,archy
 Arctic,NNP,arctic
-Are,VBP,are
 Argob,NNP,argob
 Ariel,NNP,ariel
 Arimathaea,NNP,arimathaea
@@ -312,6 +303,7 @@ Azores,NNPS,azores
 Azrikam,NNP,azrikam
 Azubah,NNP,azubah
 BAR,VBG,barring
+BE,VBP,are
 BEAR,NN,bear
 BEAR,NNP,bear
 BLACK,NNP,black
@@ -408,7 +400,6 @@ Began,NNP,began
 Begin,VB,begin
 Behold,NNP,behold
 Behold,VB,behold
-Being,VBG,being
 Bela,NNP,bela
 Belial,NNP,belial
 Believe,VB,believe
@@ -863,7 +854,6 @@ Cyrene,NNP,cyrene
 Cyrus,NNP,cyrus
 Czar,NNP,czar
 DEAR,NNP,dear
-DO,VBD,did
 DUODECIMO,NN,duodecimo
 Dagda,NNP,dagda
 Dagger,NNP,dagger
@@ -962,9 +952,6 @@ Diuell,NNP,diuell
 Divine,NNP,divine
 Dixon,NNP,dixon
 Dixon,VBN,dixon
-Do,VBD,did
-Do,VBN,done
-Do,VBZ,does
 Doct,NN,doct
 Doct,NNP,doct
 Doctor,NN,doctor
@@ -1552,8 +1539,6 @@ Guildensterne,NNP,guildensterne
 Guinea,NNP,guinea
 Gunus,NNP,guni
 Gutenberg,NNP,gutenberg
-HAVE,VBD,had
-HAVE,VBZ,has
 HER,NNP,her
 HERE,RB,here
 HIM,NNP,him
@@ -1638,9 +1623,6 @@ Hattush,NNP,hattush
 Haue,NN,haue
 Haue,NNP,haue
 Haul,NNP,haul
-Have,VBD,had
-Have,VBG,having
-Have,VBZ,has
 Havilah,NNP,havilah
 Hawker,NNP,hawker
 Hawkins,NNP,hawkins
@@ -1818,7 +1800,6 @@ I,NNP,i
 I'll,NNP,i'll
 II,NNP,ii
 III,NNP,iii
-IS,VBZ,is
 IT,NN,it
 IV,NN,iv
 IV,NNP,iv
@@ -1861,7 +1842,6 @@ Ira,NNP,ira
 Ireland,NNP,ireland
 Irish,JJ,irish
 Iron,NNP,iron
-Is,VBZ,is
 Is't,NNP,is't
 Isaac,NNP,isaac
 Isabella,NN,isabella
@@ -2444,7 +2424,7 @@ Mikloth,NNP,mikloth
 Milcah,NNP,milcah
 Milke,NNP,milke
 Mill,NNP,mill
-Millions,NNS,millions
+Million,NNS,millions
 Millo,NNP,millo
 Milsom,NNP,milsom
 Mind,VB,mind
@@ -3783,7 +3763,6 @@ Volumnius,NNP,volumnius
 Vow,NNP,vow
 Vpon,NNP,vpon
 Vpon,VB,vpon
-WA,VBD,was
 WANT,NNP,want
 WASTE,NNP,waste
 WHALE,NN,whale
@@ -3792,7 +3771,6 @@ WHALE,NNS,whale
 WHALE,VB,whaling
 WHEELER,NNP,wheeler
 WILLIAM,NNP,william
-Wa,VBD,was
 Wagga,NNP,wagga
 Wait,VB,wait
 Wait,VBG,waiting
@@ -3830,7 +3808,6 @@ Well,RBR,better
 Well,RBS,best
 Wells,NNP,wells
 Wentworth,NNP,wentworth
-Were,VBD,were
 West,NNP,west
 Western,JJ,western
 Western,NNP,western
@@ -4011,13 +3988,10 @@ afflict,JJ,afflicted
 affright,JJ,affrighted
 afore,VBP,afore
 afresh,NNS,afresh
-ai,VBP,ai
 alarm,JJ,alarmed
 alarmy,JJ,alarming
-alight,VBD,alighted
 aliue,NNS,aliue
 allege,JJ,alleged
-am,VBP,am
 amaze,JJ,amazed
 amuse,JJ,amused
 amy,RB,amiss
@@ -4025,8 +3999,6 @@ an't,VBP,an't
 anarch,JJ,anarchist
 answereth,VBD,answereth
 appeareth,VBZ,appeareth
-arch,NNS,arches
-are,VBP,are
 ariseth,VBD,ariseth
 art,VBP,art
 asleepe,NNS,asleepe
@@ -4042,8 +4014,6 @@ barren,NNS,barren
 beare,VBP,beare
 beareth,VBP,beareth
 becometh,VBD,becometh
-been,VBD,been
-been,VBN,been
 beene,NNS,beene
 beene,VBN,beene
 begat,VBD,begat
@@ -4051,7 +4021,6 @@ beget,VBD,begotten
 begge,NNS,begge
 behold,VBN,behold
 beholdeth,VBD,beholdeth
-being,VBG,being
 believeth,VBD,believeth
 believeth,VBP,believeth
 belongeth,VBD,belongeth
@@ -4064,7 +4033,6 @@ betweene,VBD,betweene
 bid,VBD,bid
 bindeth,VBD,bindeth
 blend,VBN,blended
-bless,VBD,blessed
 bless,VBN,blessed
 blesseth,VBP,blesseth
 bly,JJ,bliss
@@ -4077,7 +4045,6 @@ brow,JJ,browed
 bruise,JJ,bruised
 buildeth,VBD,buildeth
 buoy,NNS,buoy
-burn,VBD,burned
 burneth,VBD,burneth
 calculate,JJ,calculated
 call'd,NNS,call'd
@@ -4160,12 +4127,8 @@ dissatisfy,JJ,dissatisfied
 distinguish,JJ,distinguishing
 distress,JJ,distressed
 distress,NNS,distresses
-dive,VBD,dived
 divideth,VBZ,divideth
 do,JJS,dost
-do,VBN,done
-do,VBZ,does
-doe,JJS,doest
 doe,VBP,doe
 doeth,VBD,doeth
 doeth,VBP,doeth
@@ -4176,7 +4139,6 @@ downe,VBP,downe
 drave,VBD,drave
 drave,VBP,drave
 dread,JJ,dreaded
-dream,VBD,dreamed
 dream,VBN,dreamed
 dress,JJ,dressed
 drinketh,VBD,drinketh
@@ -4210,7 +4172,6 @@ exalteth,VBD,exalteth
 exceedy,JJ,exceeding
 exhaust,JJ,exhausted
 exult,JJ,exulting
-eye,VBG,eyeing
 fade,JJ,faded
 fail'd,NNS,fail'd
 falleth,VBD,falleth
@@ -4229,7 +4190,6 @@ fill'd,NNS,fill'd
 fill'd,VBZ,fill'd
 filleth,VBD,filleth
 findeth,VBZ,findeth
-fit,VBD,fitted
 fit,VBN,fitted
 flamy,JJ,flaming
 flattereth,VBP,flattereth
@@ -4257,7 +4217,6 @@ gat,VBP,gat
 gathereth,VBD,gathereth
 gaue,VBP,gaue
 gavest,VBP,gavest
-gird,VBD,girded
 gird,VBN,girded
 giue,NNS,giue
 giue,VBZ,giue
@@ -4284,7 +4243,6 @@ gy,RB,goest
 halfpenny,NN,halfpence
 hallow,JJ,hallowed
 hand,JJ,handed
-handful,NNS,handfuls
 handma,JJ,handmaid
 handmaid,VBN,handmaid
 hang,VBN,hanged
@@ -4297,7 +4255,6 @@ hath,VBD,hath
 hath,VBP,hath
 hath,VBZ,hath
 haue,VBP,haue
-have,VBZ,has
 headsmen,NNS,headsmen
 healeth,VBD,healeth
 heare,VBP,heare
@@ -4305,7 +4262,6 @@ heareth,VBD,heareth
 hearken,VBN,hearken
 heart,JJ,hearted
 heat,JJ,heated
-heave,VBD,heaved
 heave,VBN,heaved
 hee,VBZ,hee
 helpeth,VBZ,helpeth
@@ -4317,7 +4273,6 @@ hoist,JJ,hoisted
 holdeth,VBD,holdeth
 holdeth,VBP,holdeth
 honoureth,VBD,honoureth
-hoof,NNS,hoofs
 hook,JJ,hooked
 humbleth,VBD,humbleth
 humour,JJ,humoured
@@ -4337,7 +4292,6 @@ intoxicate,JJ,intoxicated
 intreat,VBP,intreat
 involve,JJ,involved
 irritate,JJ,irritated
-is,VBZ,is
 join'd,NNS,join'd
 joy,VBP,joy
 judgest,VBP,judgest
@@ -4368,11 +4322,8 @@ le,JJR,less
 le,RB,lest
 leadeth,VBD,leadeth
 leadeth,VBP,leadeth
-lean,VBD,leaned
-leap,VBD,leaped
 leap,VBN,leaped
 learn,JJ,learned
-learn,VBD,learned
 learn,VBN,learned
 learn'd,NNS,learn'd
 least,JJS,least
@@ -4430,7 +4381,6 @@ more,JJR,more
 mortify,JJ,mortifying
 most,JJS,most
 mourneth,VBD,mourneth
-mouthful,NNS,mouthfuls
 moveth,VBD,moveth
 muffle,JJ,muffled
 myrtles,NNS,myrtles
@@ -4451,6 +4401,8 @@ offereth,VBD,offereth
 offereth,VBZ,offereth
 oft,VBD,oft
 ogre,NNS,ogre
+old,JJR,elder
+old,JJS,eldest
 openeth,VBZ,openeth
 oppre,JJ,oppress
 oppresseth,VBZ,oppresseth
@@ -4464,6 +4416,7 @@ parch,JJ,parched
 passe,VBP,passe
 passeth,VBD,passeth
 peepe,VBZ,peepe
+penny,NNS,pence
 pent,VBN,pent
 perfection,NNS,perfections
 perverteth,VBD,perverteth
@@ -4517,7 +4470,6 @@ rewardeth,VBZ,rewardeth
 ring,VBP,rang
 riseth,VBD,riseth
 rolly,JJ,rolling
-roof,NNS,roofs
 rotten,VBN,rotten
 round,VBD,round
 rul'd,NNS,rul'd
@@ -4592,20 +4544,17 @@ speake,VBP,speake
 speaketh,VBP,speaketh
 speaketh,VBZ,speaketh
 spermacetus,NN,spermaceti
-spill,VBD,spilled
 spill,VBN,spilled
 splintere,JJ,splintered
 spoil,JJ,spoiled
-spoil,VBD,spoiled
 spoil,VBN,spoiled
 spreadeth,VBD,spreadeth
+staff,NNS,staves
 stagger,JJ,staggering
 standeth,VBD,standeth
 startle,JJ,startled
 stary,JJ,staring
-stay,VBD,stayed
 stay,VBN,stayed
-stay,VBZ,stays
 sting,VBG,sting
 stirreth,VBD,stirreth
 stirry,JJ,stirring
@@ -4696,7 +4645,6 @@ vertebra,NN,vertebrae
 vnder,VBP,vnder
 vnfold,VBD,vnfold
 vse,VBP,vse
-wa,VBD,was
 walketh,VBD,walketh
 wall,JJ,walled
 wandereth,VBD,wandereth
@@ -4706,7 +4654,6 @@ wax,RB,waxen
 wed,VBN,wedded
 weepe,NNS,weepe
 weepeth,VBD,weepeth
-were,VBD,were
 whale,VBP,whale
 whalemen,NNS,whalemen
 whaly,JJ,whaling

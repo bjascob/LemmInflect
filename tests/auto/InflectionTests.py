@@ -32,16 +32,14 @@ class InflectionTests(unittest.TestCase):
         self.assertEqual(doc[1]._.inflect('VBZ'), 'seems')
         self.assertEqual(doc[1]._.inflect('VBP'), 'seem')
         self.assertEqual(doc[1]._.inflect('VB'),  'seem')
-
         self.assertEqual(doc[2]._.inflect('VB', inflect_oov=False, on_empty_ret_word=False),  None)
-
         self.assertEqual(doc[3]._.inflect('VB'),  'be')
-        self.assertEqual(doc[3]._.inflect('VBD', 0), 'was')
-        self.assertEqual(doc[3]._.inflect('VBD', 1), 'were')
+        infls = [doc[3]._.inflect('VBD', 0), doc[3]._.inflect('VBD', 1)]
+        self.assertEqual(set(infls), set(['was', 'were']))
         self.assertEqual(doc[3]._.inflect('VBN'), 'been')
         self.assertEqual(doc[3]._.inflect('VBG'), 'being')
-        self.assertEqual(doc[3]._.inflect('VBP', 0),  'am')
-        self.assertEqual(doc[3]._.inflect('VBP', 1), 'are')
+        infls = [doc[3]._.inflect('VBP', 0), doc[3]._.inflect('VBP', 1)]
+        self.assertEqual(set(infls), set(['am', 'are']))
         self.assertEqual(doc[3]._.inflect('VBZ'), 'is')
 
         self.assertEqual(doc[4]._.inflect('VBN'), 'eaten')

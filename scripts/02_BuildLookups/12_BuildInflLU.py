@@ -36,7 +36,7 @@ def formsToCandidates(forms, infl_type, prefer_irreg):
 # the frequency of NNS instead of just noun.
 if __name__ == '__main__':
     # Config
-    prefer_irreg = True    # only score irregular forms if they exist for the word
+    prefer_irreg = False    # only score irregular forms if they exist for the word
 
     # Load forms table
     print('Loading ', config.ftable_fn)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         for (base, category), forms in sorted(ftable.data.items()):
             # Skip aux and modals. They will be added from hard-coded values on load
             if category in [SKey.MODAL, SKey.AUX]:
-                continue            
+                continue
             # forms are lists of [inflection, infl_type, source] that needs to be disambiguated
             forms_dict = {}
             infl_types = sorted(set([f[1] for f in forms]))
