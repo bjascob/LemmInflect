@@ -61,19 +61,19 @@ class TestAuxModContract(unittest.TestCase):
     # ["'d", "'ll", "'m", "'re", "'s", "'ve"]
     def testContractionLemmas(self):
         lemmas = lemminflect.getAllLemmas("'d")
-        self.assertEqual(lemmas, {'AUX': ('will', 'have')})
+        self.assertTrue(lemmas.items() >= {'AUX': ('will', 'have')}.items())
         lemmas = lemminflect.getAllLemmas("'ll")
-        self.assertEqual(lemmas, {'AUX': ('will',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('will',)}.items())
         lemmas = lemminflect.getAllLemmas("'m")
-        self.assertEqual(lemmas, {'AUX': ('be',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('be',)}.items())
         lemmas = lemminflect.getAllLemmas("'re")
-        self.assertEqual(lemmas, {'AUX': ('be',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('be',)}.items())
         lemmas = lemminflect.getAllLemmas("'s")
-        self.assertEqual(lemmas, {'AUX': ('be',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('be',)}.items())
         lemmas = lemminflect.getAllLemmas("'ve")
-        self.assertEqual(lemmas, {'AUX': ('have',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('have',)}.items())
         lemmas = lemminflect.getAllLemmas("'ve")
-        self.assertEqual(lemmas, {'AUX': ('have',)})
+        self.assertTrue(lemmas.items() >= {'AUX': ('have',)}.items())
 
     # At least for now, inflections don't include spellings for contractions
     # This just doesn't seem useful

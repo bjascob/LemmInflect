@@ -2,6 +2,7 @@
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
 import gzip
+from   collections import defaultdict
 from   lemminflect.codecs.FormsTable import FormsTable
 from   lemminflect.utils.Unigrams    import Unigrams
 from   lemminflect.core.Lemmatizer   import LemmaLUCodec
@@ -20,7 +21,7 @@ if __name__ == '__main__':
     print()
 
     # Invert the forms table so we have a dictionary with inflections,category as the keys
-    lemma_lu = {}
+    lemma_lu = defaultdict(set)
     for (base, category), forms in ftable.data.items():
         # A modal is a sub-type of an aux verb. Since upos doesn't have modal,
         # put all modals under aux.
@@ -31,13 +32,15 @@ if __name__ == '__main__':
         # add the inflection, category key to the dict with the value a set of lemmas
         for infl in infls:
             key = (infl,category)
-            if key not in lemma_lu:
-                lemma_lu[key] = set([base])
-            else:
+            lemma_lu[key].add(base)
+        # For auxilliaries, make sure they are under 'verb' too since a lot of time the user
+        # may look for them there.
+        if category == SKey.AUX:
+            for infl in infls:
+                key = (infl,SKey.VERB)
                 lemma_lu[key].add(base)
 
     # Write out the lemma lookup
-    print('Printing inflections with multiple lemmas')
     ctr = 0
     with gzip.open(config.lemma_lu_fn, 'wb') as f:
         for (base, category), forms in sorted(lemma_lu.items()):
