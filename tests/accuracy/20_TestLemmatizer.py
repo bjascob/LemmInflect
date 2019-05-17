@@ -24,21 +24,50 @@ class LILemmatizer(object):
         import lemminflect
         self.name = 'LemmInflect'
         self.version_string = 'LemmInflect version: %s' % lemminflect.__version__
+        # Force loading dictionary and model so lazy loading doesn't show up in run times
+        lemmas = lemminflect.getAllLemmas('testing', 'VERB')
+        lemmas = lemminflect.getAllLemmasOOV('xxtesting', 'VERB')
+
+    # Use only the dictionary methods
+    def getLemmaDictOnly(self, entry, upos):
+            lemmas = lemminflect.getAllLemmas(entry.infl, upos)
+            lemma = lemmas.get(upos, ())
+            if not lemma:
+                return ()
+            return lemma[0]
+
+    # Use only the model methods
+    def getLemmaOOVOnly(self, entry, upos):
+        lemmas = lemminflect.getAllLemmasOOV(entry.infl, upos)
+        lemma = lemmas.get(upos, ())
+        if not lemma:
+            return ()
+        return lemma[0]
+
+    # Standard combined method
+    def getLemma(self, entry, upos):
+        lemmas = lemminflect.getLemma(entry.infl, upos)
+        if not lemmas:
+             return ()
+        return lemmas[0]
 
     # get the lemmas for every upos (pos_type='a' will have adv and adj)
+    # With LemmInflect 0.1.0 and the 119,194 test set, there are 88,182 words OOV
     def getLemmas(self, entry):
         possible_lemmas = set()
         for upos in entry.upos_list:
-            lemmas = lemminflect.getLemma(entry.infl, upos)
-            lemma = lemmas[0]   # first one is the most common form
-            possible_lemmas.add( lemma )
+            #lemma = self.getLemmaDictOnly(entry, upos)
+            #lemma = self.getLemmaOOVOnly(entry, upos)
+            lemma = self.getLemma(entry, upos)
+            if lemma:
+                possible_lemmas.add(lemma)
         return possible_lemmas
 
 # Spacy
 class SpacyLemmatizer(object):
     def __init__(self, smodel):
         import spacy
-        self.morphology = spacy.load(smodel).vocab.morphology
+        self.lemmatizer = spacy.load(smodel).vocab.morphology.lemmatizer
         self.name = 'Spacy'
         self.version_string = 'Spacy version: %s' % spacy.__version__
 
@@ -48,7 +77,7 @@ class SpacyLemmatizer(object):
         for upos in entry.upos_list:
             # The 3rd param, morphology=None, only impacts the call to is_base_form()
             # so omitting it should only impact trying to lemmatize a lemma.
-            lemmas = self.morphology.lemmatizer(entry.infl, upos)
+            lemmas = self.lemmatizer(entry.infl, upos)
             lemma = lemmas[0]    # See morphology.pyx::lemmatize
             possible_lemmas.add( lemma )
         return possible_lemmas
@@ -105,13 +134,12 @@ class NLTKLemmatizer(object):
 
 def testLemmatizer(tester, lemmatizer, results_dir):
     tester.resetTest()
-    # Loop through the sentences
-    print('Processing sentences')
+    print('Processing inflections')
     ntests = len(tester)
     pb = ProgressBar(ntests)
     st = time.time()
     for i, entry in enumerate(tester):
-        if i%10 == 0: pb.update(i)
+        if i%1000 == 0: pb.update(i)
         possible_lemmas = lemmatizer.getLemmas(entry)
         tester.addResult(entry, possible_lemmas)
     duration = time.time() - st
@@ -119,12 +147,11 @@ def testLemmatizer(tester, lemmatizer, results_dir):
     print()
 
     # Print some stats
-    bad_returns = tester.lemma_errors+tester.lemma_no_ret
     print(lemmatizer.version_string)
-    print('{:,} total test cases were {:,} had no returns.'.format(ntests,tester.lemma_no_ret))
+    print('{:,} total test cases where {:,} had no returns.'.format(ntests,tester.lemma_no_ret))
     print('{:.1f} usecs per lemma'.format(int(1e6*duration/ntests)))
-    print('{:,} incorrect lemmas = {:.1f}% accuracy'.format((bad_returns),
-        100.*(1-bad_returns/ntests)))
+    print('{:,} incorrect lemmas = {:.1f}% accuracy'.format((tester.lemma_errors),
+        100.*(1-tester.lemma_errors/ntests)))
     print('Results by pos type')
     for i in range(3):
         print('  {:8} : {:7,} / {:6,} = {:5.1f}% accuracy'.format(\
@@ -149,16 +176,6 @@ if __name__ == '__main__':
     # config
     results_dir = '/tmp/'
     smodel      = 'en_core_web_sm'
-
-    # Debug return results
-    if 0:
-        infl = 'aardvarks'
-        pos_type = 'N'
-        entry = Entry(infl, pos_type, [], '')   # don't populate results
-        lemmatizer = SNLPLemmatizer()
-        lemmas = lemmatizer.getLemmas(entry)
-        print('%s/%s -> %s' % (entry.infl, entry.pos_type, lemmas))
-        sys.exit(0)
 
     # Load the corpus to test with
     print('Loading corpus ', config.acc_lemma_corp_fn)

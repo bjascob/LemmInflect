@@ -31,8 +31,9 @@ class LemmatizerTest(object):
         self.van_counts[vidx] += 1
         if not possible_lemmas:
             self.lemma_no_ret += 1
-            return
-        if entry.lemma not in possible_lemmas:
+            self.van_errors[vidx] += 1
+            self.lemma_errors += 1
+        elif entry.lemma not in possible_lemmas:
             self.van_errors[vidx] += 1
             self.lemma_errors += 1
             plemmas_str = '/'.join(sorted(possible_lemmas))
