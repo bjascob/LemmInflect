@@ -2,6 +2,7 @@
 import sys
 sys.path.insert(0, '../..')    # make '..' first in the lib search path
 import gzip
+from   copy import deepcopy
 from   lemminflect.slexicon.SPECIALISTExtractor import *
 from   lemminflect.slexicon.SPECIALISTEntry     import*
 from   lemminflect.slexicon.SKey                import *
@@ -84,12 +85,13 @@ if __name__ == '__main__':
     extractor = SPECIALISTExtractor(config.english_dict_fn)
     #extractor = NIHExtractor()  #don't limit the vocab
     extractor.extract(config.lexicon_fn)
-    entries = extractor.lexicon
+    entries = extractor.lexicon     # list of entries
     print('Limiting word set has {:,} words in it'.format(len(extractor.word_set)))
     print('Extracted {:,} words from the Specialist Lexicon'.format(len(entries)))
     print()
 
     # Special cases
+    entries_to_add = []
     for entry in entries:
         # add the token n't as a spelling variant.
         # Spelling variants will show up as a separate word in the forms table
@@ -99,6 +101,14 @@ if __name__ == '__main__':
         # This messes up the lemmatizer logic since it can't lemmatize itself.  Add these.
         if entry.category == SKey.MODAL:
             entry.variants.add( AuxModVariant(entry.base, 'infinitive', [], False) )
+        # less and more are in as adv but not adj
+        if entry.EUI in ['E0587115', 'E0037299']:
+            entries_to_add.append( deepcopy(entry) )
+            entries_to_add[-1].EUI = 'NOT_IN_LEXICON'
+            entries_to_add[-1].category = 'adj'
+    for entry in entries_to_add:
+        entries.append(entry)
+
 
     # Run through the lexicon and add inflection forms
     # Use a dict to gather data.  Entries are unique for the key = (base, category)

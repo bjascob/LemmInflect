@@ -9,8 +9,9 @@ import spacy
 import lemminflect
 from   lemminflect.utils.ProgressBar     import ProgressBar
 from   lemminflect.codecs.OverridesCodec import OverridesCodec
-from   lemminflect import config
 from   lemminflect.utils.CorpusUtils     import isASCIIWord
+from   lemminflect import config
+
 
 
 # Get all the files in a directory
