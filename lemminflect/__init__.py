@@ -3,7 +3,7 @@ import logging
 from   .core.Inflections import Inflections
 from   .core.Lemmatizer  import Lemmatizer
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 
 # Lemmatizer is a singleton so this will only instantiate and load the data
