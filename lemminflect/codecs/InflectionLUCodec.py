@@ -97,6 +97,4 @@ class InflectionLUCodec(object):
         # Auxillaries verbs
         d['be']     = {'VB':('be',), 'VBD':('was', 'were'), 'VBG':('being',), 'VBN':('been',),
                        'VBP':('am', 'are'), 'VBZ':('is',)}
-        d['do']     = {'VB':('do','does'), 'VBD':('did',)}
-        d['have']   = {'VB':('have', 'has'), 'VBD':('had',), 'VBG':('having',)}
         return d

@@ -52,11 +52,12 @@ class TestAuxModContract(unittest.TestCase):
         infls = lemminflect.getAllInflections('be')
         self.assertTrue(infls.items() >= {'VB': ('be',), 'VBD': ('was', 'were'), \
             'VBG': ('being',), 'VBN': ('been',), 'VBP': ('am', 'are'), 'VBZ': ('is',)}.items())
-        infls = lemminflect.getAllInflections('do')
-        self.assertTrue(infls.items() >= {'VB': ('do', 'does'), 'VBD': ('did',)}.items())
-        infls = lemminflect.getAllInflections('have')
-        self.assertTrue(infls.items() >= {'VB': ('have', 'has'), 'VBD': ('had',), \
-            'VBG': ('having',)}.items())
+        # Originally coded this way but I don't think this is correct
+        #infls = lemminflect.getAllInflections('do')
+        #self.assertTrue(infls.items() >= {'VB': ('do', 'does'), 'VBD': ('did',)}.items())
+        #infls = lemminflect.getAllInflections('have')
+        #self.assertTrue(infls.items() >= {'VB': ('have', 'has'), 'VBD': ('had',), \
+        #    'VBG': ('having',)}.items())
 
     # ["'d", "'ll", "'m", "'re", "'s", "'ve"]
     def testContractionLemmas(self):
