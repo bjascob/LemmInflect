@@ -1,7 +1,7 @@
 
 # The Inflection API
 
-The `Inflection` class converts words from their base form to a user-specified. inflection type.  The class aggregates dictionary based lookup and rule based inflections, including the nerual-network models used to select the appropriate rules.  It is implemented as a singleton that is instantiated for the first time when you call any of its methods from `lemminflect`.
+The `Inflection` class converts words from their base form to a user-specified inflection type.  The class aggregates dictionary based lookup and rule based inflections, including the nerual-network models used to select the appropriate rules.  It is implemented as a singleton that is instantiated for the first time when you call any of its methods from `lemminflect`.
 
 Only the base form of a word can be inflected and the library methods here expect the incoming word to be a lemma.  If your word is not in its base form, first call the [lemmatizer](lemmatizer.md) to get the base form.  When using the spaCy extension, lemmatization is handled internally.
 
