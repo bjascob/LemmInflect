@@ -62,7 +62,7 @@ class Inflections(Singleton):
     # Return a dictionary of inflections, keyed by Penn Tag  and a tuple
     # of the possible spellings as the value
     def getAllInflectionsOOV(self, lemma, upos):
-        if upos not in self.DICT_UPOS_TYPES:
+        if upos is not None and upos not in self.DICT_UPOS_TYPES:
             self.logger.warning('Invalid upos type = %s', upos)
             return {}
         caps_style = getCapsStyle(lemma)
