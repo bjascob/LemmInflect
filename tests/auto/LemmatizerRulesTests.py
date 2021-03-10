@@ -28,6 +28,7 @@ class LemmatizerRulesTests(unittest.TestCase):
             lemma = oov_lemmatizer.lemmatize( test[0], test[1] )
             self.assertEqual(lemma, test[2])
 
+    @unittest.skip("Keras not installed")
     def testKerasInfer(self):
         # In my code I see a bunch of warnings from numpy when running keras, but only
         # inside the unittest, not during normal operation.

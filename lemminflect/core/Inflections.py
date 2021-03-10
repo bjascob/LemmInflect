@@ -142,16 +142,17 @@ class Inflections(Singleton):
     # Used with spacy ._.inflect
     # Returns a string or None
     def spacyGetInfl(self, token, tag, form_num=0, inflect_oov=True, on_empty_ret_word=True):
+        # Don't try to inflect invalid types
+        upos = tagToUPos(tag)
+        if upos is None:
+            self.logger.info('No upos type for tag %s' % tag)
+            return token.text
         # Use LemmInflect lemmatizer
         if self.int_lemma is not None:
             lemma = self.int_lemma.spacyGetLemma(token)
         # Use Spacy lemmatizer
         else:
             lemma = token.lemma_
-            # handle pronouns.  The isTagBaseForm will force the immediate return
-            # of these types anyway.
-            if lemma == '-PRON-':
-                lemma = token.text
         # If the requested tag to inflect to is a base form already then the lemma is the inflection
         if Lemmatizer.isTagBaseForm(tag):
             return lemma
@@ -160,7 +161,6 @@ class Inflections(Singleton):
         lemma = applyCapsStyle(lemma, caps_style)
         # Find the the inflections for the lemma
         inflections = ()
-        upos = tagToUPos(tag)
         if upos in self.DICT_UPOS_TYPES:
             inflections = self.getInflection(lemma, tag, inflect_oov)
         if not inflections:
