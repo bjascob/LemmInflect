@@ -2,6 +2,6 @@
 
 echo 'Removing setup files in main directory'
 cd ..
-sudo rm -rf build/
-sudo rm -rf dist/
-sudo rm -rf lemminflect.egg-info/
+rm -rf build/
+rm -rf dist/
+rm -rf lemminflect.egg-info/
