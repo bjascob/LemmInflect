@@ -210,6 +210,21 @@ class LemmatizerTests(unittest.TestCase):
         token = self.nlp('The Axxlaskans went South.')[1]
         self.assertEqual(token._.lemma(lemmatize_oov=True), 'Axxlaskan')
 
+    def testPronouns(self):
+        pronouns = ['all', 'another', 'any', 'anybody', 'anyone', 'anything', 'aught', 'both', 'each',
+                    'everybody', 'everyone', 'everything', 'he', 'her', 'hers', 'herself', 'him',
+                    'himself', 'his', 'idem', 'it', 'its', 'itself', 'many', 'me', 'my', 'myself',
+                    'neither', 'none', 'our', 'ours', 'ourself', 'ourselves', 'she', 'some', 'somebody',
+                    'someone', 'something', 'such', 'suchlike', 'that', 'thee', 'their', 'theirs',
+                    'theirself', 'theirselves', 'them', 'themself', 'themselves', 'these', 'they',
+                    'thine', 'this', 'those', 'thou', 'thy', 'thyself', 'us', 'we', 'what', 'whatever',
+                    'whatnot', 'whether', 'which', 'whichever', 'whichsoever', 'who', 'whoever', 'whom',
+                    'whomever', 'whomso', 'whomsoever', 'whose', 'whosever', 'whosesoever', 'whoso',
+                    'whosoever', 'ye', 'yon', 'you', 'your', 'yours', 'yourself', 'yourselves']
+        tests = [(p, 'NOUN', p) for p in pronouns]
+        self.runGetAllLemmasTests(tests)
+        self.runGetLemmaTests(tests)
+
     def testOverrides(self):
         # run the lemmatizer once to assure the overrides is loaded (ie.. lazy loading)
         lemminflect.getLemma('Alaskans', 'NOUN', lemmatize_oov=False)
