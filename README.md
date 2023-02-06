@@ -4,13 +4,20 @@
 
 
 ## About
-LemmInflect uses a dictionary approach to lemmatize English words and inflect them into forms specified by a user supplied [Universal Dependencies](https://universaldependencies.org/u/pos/) or [Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) tag.  The library works with out-of-vocabulary (OOV) words by applying neural network techniques to classify word forms and choose the appropriate morphing rules.
+LemmInflect uses a dictionary approach to lemmatize English words and inflect them into forms
+specified by a user supplied [Universal Dependencies](https://universaldependencies.org/u/pos/)
+or [Penn Treebank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html)
+tag.  The library works with out-of-vocabulary (OOV) words by applying neural network techniques
+to classify word forms and choose the appropriate morphing rules.
 
 The system acts as a standalone module or as an extension to the [spaCy](https://spacy.io/) NLP system.
 
-The dictionary and morphology rules are derived from the [NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html) which contains an extensive set information on English word forms.
+The dictionary and morphology rules are derived from the
+[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)
+which contains an extensive set information on English word forms.
 
-A more simplistic inflection only system is available as [pyInflect](https://github.com/bjascob/pyInflect).  LemmInflect was created to address some of the shortcoming of that project and add features, such as...
+A more simplistic inflection only system is available as [pyInflect](https://github.com/bjascob/pyInflect).
+LemmInflect was created to address some of the shortcoming of that project and add features, such as...
 
 * Independence from the spaCy lemmatizer
 * Neural nets to disambiguate out of vocab morphology
@@ -22,21 +29,26 @@ For the latest documentation, see **[ReadTheDocs](https://lemminflect.readthedoc
 
 
 ## Accuracy of the Lemmatizer
-The accuracy of LemmInflect and several other popular NLP utilities was tested using the [Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other) as a baseline.  The AGID has an extensive list of lemmas and their corresponding inflections.  Each inflection was lemmatized by the test software and then compared to the original value in the corpus. The test included 119,194 different inflected words.
+The accuracy of LemmInflect and several other popular NLP utilities was tested using the
+[Automatically Generated Inflection Database (AGID)](http://wordlist.aspell.net/other) as a
+baseline. This is not a "gold" standard dataset but it has an extensive list of
+lemmas and their corresponding inflections and appears to be generaly a "good" set for testing.
+Each inflection was lemmatized by the test software and then compared to the original value in the
+corpus. The test included 119,194 different inflected words.
 
 ```
-| Package          | Verb  |  Noun | ADJ/ADV | Overall |  Speed  |
-|----------------------------------------------------------------|
-| LemmInflect      | 96.1% | 95.4% |  93.9%  |  95.6%  | 42.0 uS |
-| CLiPS/pattern.en | 93.6% | 91.1% |   0.0%  |  n/a    |  3.0 uS |
-| Stanford CoreNLP | 87.6% | 93.1% |   0.0%  |  n/a    |  n/a    |
-| spaCy            | 79.4% | 88.9% |  60.5%  |  84.7%  |  5.0 uS |
-| NLTK             | 53.3% | 52.2% |  53.3%  |  52.6%  | 13.0 uS |
-|----------------------------------------------------------------|
+| Package                      | Verb  |  Noun | ADJ/ADV | Overall |  Speed   |
+|-----------------------------------------------------------------------------|
+| LemmInflect 0.2.3            | 96.1% | 95.4% |  93.9%  |  95.6%  |  42.0 uS |
+| Stanza 1.5.0 + CoreNLP 4.5.2 | 94.0% | 96.4% |  93.1%  |  95.5%  |  30.0 us |
+| spaCy 3.5.0                  | 79.5% | 88.9% |  60.5%  |  84.7%  | 393.0 uS |
+| NLTK 3.8.1                   | 53.3% | 52.2% |  53.3%  |  52.6%  |  12.0 uS |
+|-----------------------------------------------------------------------------|
 ```
-* Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU.
-* The Stanford and CLiPS lemmatizers don't accept part-of-speech information and in the case of the pattern.en, the methods was setup specifically for verbs, not as a lemmatizer for all word types.
-* The Stanford CoreNLP lemmatizer is a Java package and testing was done via the built-in HTML server, thus the speed measurement is invalid.
+ Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU. Note since Stanza is making
+calls to the java CoreNLP software all 120K test cases were grouped into a single call. For Spacy,
+all pipeline components were disabled except the lemmatizer but the high per lemma time is probably
+a reflection of the generally overhead of the pipeline architecture.
 
 
 ## Requirements and Installation

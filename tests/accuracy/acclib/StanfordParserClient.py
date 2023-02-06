@@ -41,6 +41,6 @@ class StanfordParserClient(object):
     def _annotate(self, text):
         r = requests.post(self.server_url, params={'properties': str(self.reqdict)},
                           data=text.encode(), headers={'Connection': 'close'})
-        r.raise_for_status()    # raise an excepection for a bad return
-        output = json.loads(r.text, encoding='utf-8', strict=True)
+        r.raise_for_status()    # raise an excepection for a bad return        
+        output = json.loads(r.text, strict=True)
         return output

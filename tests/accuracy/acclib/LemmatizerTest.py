@@ -55,8 +55,8 @@ class LemmatizerTest(object):
                 self.entry_ptr += 1
                 yield entry
             else:
-                self.entry_ptr = 0
-                raise StopIteration()
+                self.entry_ptr = 0                
+                return
 
     def __len__(self):
         return len(self.entries)
