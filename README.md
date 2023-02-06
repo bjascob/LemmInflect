@@ -45,9 +45,9 @@ corpus. The test included 119,194 different inflected words.
 | NLTK 3.8.1                   | 53.3% | 52.2% |  53.3%  |  52.6%  |  12.0 uS |
 |-----------------------------------------------------------------------------|
 ```
- Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU. Note since Stanza is making
-calls to the java CoreNLP software all 120K test cases were grouped into a single call. For Spacy,
-all pipeline components were disabled except the lemmatizer but the high per lemma time is probably
+Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU. Note since Stanza is making
+calls to the java CoreNLP software, all 120K test cases were grouped into a single call. For Spacy,
+all pipeline components were disabled except the lemmatizer, but the high per lemma time is probably
 a reflection of the generally overhead of the pipeline architecture.
 
 
