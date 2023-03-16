@@ -169,10 +169,11 @@ class StanzaLemmatizer(object):
         self.name = 'Stanza'
         self.version_string = 'Stanza version: %s' % stanza.__version__
         # Setup the classpath. Note that for released versions the libraries are in the main path
-        # so we can skip the lib/* and liblocal/*
-        os.environ['CLASSPATH'] = '/home/bjascob/Libraries/StanzaDev/CoreNLP/*' \
-                                  ':/home/bjascob/Libraries/StanzaDev/CoreNLP/lib/*' \
-                                  ':/home/bjascob/Libraries/StanzaDev/CoreNLP/liblocal/*'
+        # so we can skip the lib/* and liblocal/* 
+        # os.environ['CLASSPATH'] = '/home/bjascob/Libraries/StanzaDev/CoreNLP/*' \
+        #                           ':/home/bjascob/Libraries/StanzaDev/CoreNLP/lib/*' \
+        #                           ':/home/bjascob/Libraries/StanzaDev/CoreNLP/liblocal/*'
+        os.environ['CLASSPATH'] = '/home/bjascob/Libraries/StanfordNLP/stanford-corenlp-4.5.4/*'
 
     # Add the penn treebank tags based on the pos_type (V, A or N)
     # See https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
