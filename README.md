@@ -48,7 +48,7 @@ corpus. The test included 119,194 different inflected words.
 Speed is in micro-seconds per lemma and was conducted on a i9-7940x CPU. Note, since Stanza is making
 calls to the java CoreNLP software, all 120K test cases were grouped into a single call. For Spacy,
 all pipeline components were disabled except the lemmatizer. The high per lemma time is probably
-a reflection of the generally overhead of the pipeline architecture.
+a reflection of the general overhead of the pipeline architecture.
 
 
 ## Requirements and Installation
