@@ -13,7 +13,7 @@ to classify word forms and choose the appropriate morphing rules.
 The system acts as a standalone module or as an extension to the [spaCy](https://spacy.io/) NLP system.
 
 The dictionary and morphology rules are derived from the
-[NIH's SPECIALIST Lexicon](https://lsg3.nlm.nih.gov/LexSysGroup/Projects/lexicon/current/web/index.html)
+[NIH's SPECIALIST Lexicon](https://lhncbc.nlm.nih.gov/LSG/Projects/lexicon/current/web/index.html)
 which contains an extensive set information on English word forms.
 
 A more simplistic inflection only system is available as [pyInflect](https://github.com/bjascob/pyInflect).
